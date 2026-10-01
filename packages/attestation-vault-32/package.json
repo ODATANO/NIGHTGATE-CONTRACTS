@@ -1,0 +1,46 @@
+{
+    "name": "@odatano/contract-attestation-vault-32",
+    "version": "0.1.0",
+    "description": "AttestationVault Compact contract, 32 content slots: the width-32 twin of @odatano/contract-attestation-vault.",
+    "license": "Apache-2.0",
+    "author": "ODATANO",
+    "homepage": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ODATANO/NIGHTGATE-CONTRACTS.git",
+        "directory": "packages/attestation-vault-32"
+    },
+    "keywords": [
+        "midnight",
+        "compact",
+        "nightgate",
+        "attestation",
+        "zero-knowledge"
+    ],
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./managed/attestation-vault-32/contract/index.d.ts",
+            "default": "./managed/attestation-vault-32/contract/index.js"
+        },
+        "./contract.json": "./contract.json",
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "contract.json",
+        "src/*.compact",
+        "managed/**/*",
+        "!managed/**/*.prover",
+        "README.md",
+        "LICENSE"
+    ],
+    "peerDependencies": {
+        "@midnight-ntwrk/compact-runtime": "0.16.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "prepublishOnly": "npm --prefix ../.. run check"
+    }
+}

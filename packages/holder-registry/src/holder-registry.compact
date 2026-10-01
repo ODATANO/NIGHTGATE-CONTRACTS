@@ -1,0 +1,33 @@
+// HolderRegistry: proof of holding a shielded token type, without naming the holder.
+//
+// A holder hands one coin of the type to the contract and gets it back in the
+// same transaction, so only someone who can spend such a coin can register. The
+// entry is a hash of the coin's type and a claim key the holder chose; the key
+// never appears on chain, and whoever knows its preimage can later prove the
+// entitlement to a service that reads this contract.
+
+pragma language_version >= 0.20;
+
+import CompactStandardLibrary;
+
+export ledger holders: Set<Bytes<32>>;
+
+export pure circuit holderEntry(token_type: Bytes<32>, claim_key: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>([pad(32, "holder-registry:entry:v1"), token_type, claim_key]);
+}
+
+// Register as a holder of `coin`'s type under `claim_key`; the coin returns to the caller.
+export circuit registerHolder(coin: ShieldedCoinInfo, claim_key: Bytes<32>): [] {
+  const c = disclose(coin);
+  assert(c.value > 0, "empty coin");
+  receiveShielded(c);
+  sendImmediateShielded(c, left<ZswapCoinPublicKey, ContractAddress>(ownPublicKey()), c.value);
+  holders.insert(disclose(holderEntry(c.color, disclose(claim_key))));
+}
+
+// Remove the entry of `token_type` under `claim_key`; only who knows the key can name it.
+export circuit unregisterHolder(token_type: Bytes<32>, claim_key: Bytes<32>): [] {
+  const entry = disclose(holderEntry(disclose(token_type), disclose(claim_key)));
+  assert(holders.member(entry), "not registered");
+  holders.remove(entry);
+}

@@ -1,0 +1,17 @@
+{
+  "name": "counter",
+  "role": "example",
+  "privateStateId": "counterPrivateState",
+  "artifactPath": "managed/counter/contract/index.js",
+  "zkConfigPath": "managed/counter",
+  "circuits": [
+    "increment"
+  ],
+  "pureCircuits": [],
+  "compactCompiler": "0.31.0",
+  "compactRuntime": "0.16.0",
+  "languageVersion": "0.23.0",
+  "digest": "bd30a06bb1851a6c41f0869c25e0c02a7e8b4ca0b5b12db3d9edf4e17ff3a12a",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/counter-v0.1.0",
+  "zkAssetLayout": "flat"
+}

@@ -1,0 +1,34 @@
+/**
+ * Off-chain hashing primitives shared by the content-root and set-root
+ * builders. @noble/hashes only: loads in Node (CJS + ESM) and browser bundles.
+ */
+
+import { blake2b } from '@noble/hashes/blake2b';
+import { bytesToHex, hexToBytes32 } from './hex.js';
+
+/** blake2b-256 hex of a UTF-8 string (the on-chain hashing scheme). */
+export function blake2b256Hex(input: string): string {
+    return bytesToHex(blake2b(new TextEncoder().encode(input), { dkLen: 32 }));
+}
+
+/** 64-hex string -> 32 bytes. */
+export function fromHex32(hex: string): Uint8Array {
+    return hexToBytes32(hex);
+}
+
+/**
+ * Canonical empty-slot field key: the label zero-padded to 32 bytes, byte
+ * identical to the vault's `emptyLeafKey()` pure circuit (Compact `pad(32, ...)`
+ * right-pads). An ASCII label because a Compact literal cannot express a digest.
+ */
+export const EMPTY_LEAF_KEY_LABEL = 'nightgate/empty-leaf/v2';
+
+export function emptyLeafKeyBytes(): Uint8Array {
+    const out = new Uint8Array(32);
+    out.set(new TextEncoder().encode(EMPTY_LEAF_KEY_LABEL));
+    return out;
+}
+
+export function emptyLeafKeyHex(): string {
+    return bytesToHex(emptyLeafKeyBytes());
+}

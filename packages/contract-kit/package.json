@@ -1,0 +1,62 @@
+{
+    "name": "@odatano/contract-kit",
+    "version": "0.1.0",
+    "description": "Companion code of the NIGHTGATE contract lineages: hashing, content roots, claim keys, witnesses, call helpers, artifact digest and key manifest.",
+    "license": "Apache-2.0",
+    "author": "ODATANO",
+    "homepage": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ODATANO/NIGHTGATE-CONTRACTS.git",
+        "directory": "packages/contract-kit"
+    },
+    "bugs": {
+        "url": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/issues"
+    },
+    "keywords": [
+        "midnight",
+        "nightgate",
+        "compact",
+        "zero-knowledge",
+        "attestation"
+    ],
+    "type": "module",
+    "engines": {
+        "node": ">=22.12"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./node": {
+            "types": "./dist/node/index.d.ts",
+            "default": "./dist/node/index.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "dist/**/*.js",
+        "dist/**/*.d.ts",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+        "prepack": "npm run build",
+        "prepublishOnly": "npm --prefix ../.. run check"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@noble/hashes": "^1.8.0"
+    },
+    "peerDependencies": {
+        "@midnight-ntwrk/compact-runtime": "0.16.0"
+    },
+    "devDependencies": {
+        "typescript": "^5"
+    }
+}

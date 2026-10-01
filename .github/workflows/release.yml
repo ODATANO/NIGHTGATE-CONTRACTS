@@ -1,0 +1,79 @@
+name: Release
+
+# One tag per lineage package: `<name>-v<version>`; the tag must equal the
+# package's version. The release rebuilds the prover keys with the pinned
+# compiler, verifies them against the committed manifest and uploads them as
+# release assets under the tag (the package's contract.json points there).
+# npm publishing happens locally (`npm publish -w packages/<name>`), see README.
+on:
+  push:
+    tags:
+      - '*-v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - name: Install npm 11
+        run: npm install -g npm@11
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve the package behind the tag
+        id: pkg
+        run: |
+          set -euo pipefail
+          TAG=${GITHUB_REF#refs/tags/}
+          NAME=${TAG%-v*}
+          VERSION=${TAG##*-v}
+          DIR=packages/$NAME
+          [ -d "$DIR" ] || { echo "::error::no package directory for tag '$TAG' ($DIR)"; exit 1; }
+          [ "$NAME" != contract-kit ] || { echo "::error::the kit has no release assets; publish it with npm publish"; exit 1; }
+          PKG=$(node -p "require('./$DIR/package.json').version")
+          if [ "$VERSION" != "$PKG" ]; then
+            echo "::error::tag version '$VERSION' does not match $DIR/package.json version '$PKG'"
+            exit 1
+          fi
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Gates
+        run: npm run check
+
+      - name: Install the Compact toolchain
+        run: |
+          curl -fsSL https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Rebuild the prover keys
+        run: |
+          set -euo pipefail
+          N=${{ steps.pkg.outputs.name }}
+          mkdir -p .build/$N
+          cp -r packages/$N/src .build/$N/src
+          cp -r packages/$N/managed .build/$N/managed
+          find .build/$N/managed -name '*.prover' -delete
+          COMPACT_ROOT=.build bash scripts/compile.sh $N
+          node scripts/check-rebuild.mjs $N .build/$N/managed/$N
+
+      - name: Upload the prover keys as release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          N=${{ steps.pkg.outputs.name }}
+          TAG=${GITHUB_REF#refs/tags/}
+          gh release create "$TAG" --title "$TAG" --notes "Prover keys of @odatano/contract-$N ${{ steps.pkg.outputs.version }}; keys/manifest.json in the package pins their bytes." \
+            .build/$N/managed/$N/keys/*.prover

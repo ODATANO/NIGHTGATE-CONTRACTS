@@ -1,0 +1,38 @@
+{
+  "name": "attestation-vault-32",
+  "role": "attestation",
+  "privateStateId": "attestationVaultPrivateState",
+  "artifactPath": "managed/attestation-vault-32/contract/index.js",
+  "zkConfigPath": "managed/attestation-vault-32",
+  "slotWidth": 32,
+  "circuits": [
+    "anchorContentRoot",
+    "attest",
+    "bindDocument",
+    "grantDisclosure",
+    "proveDocumentComparison",
+    "proveFieldEquality",
+    "proveFieldMembership",
+    "proveFieldPredicate",
+    "registerDocument",
+    "retract",
+    "revokeDisclosure"
+  ],
+  "pureCircuits": [
+    "absentLeafHash",
+    "bytesLeafHash",
+    "descriptorLeafHash",
+    "emptyLeafKey",
+    "leafHash",
+    "nodeHash",
+    "recordKey",
+    "setLeafHash",
+    "slotSalt"
+  ],
+  "compactCompiler": "0.31.0",
+  "compactRuntime": "0.16.0",
+  "languageVersion": "0.23.0",
+  "digest": "49b05093f9955f2935aeb67e6352f827861c03a90c5128b59a1824b37b98e81c",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/attestation-vault-32-v0.1.0",
+  "zkAssetLayout": "flat"
+}

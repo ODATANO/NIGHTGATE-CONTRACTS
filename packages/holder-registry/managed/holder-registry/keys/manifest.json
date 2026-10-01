@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "prover": {
+    "registerHolder": {
+      "sha256": "5841fb7b83e1e917e7f3231425dc5f2da4a8ca1f142da5cfca7de7f832643840",
+      "bytes": 9990553
+    },
+    "unregisterHolder": {
+      "sha256": "23f13ef556ee83179ae069043e7f50a9bb26a55f79ff7e916d374f61460d25e7",
+      "bytes": 2820419
+    }
+  },
+  "verifier": {
+    "registerHolder": {
+      "sha256": "5e571c27419a227c42bba0a9293cb56d968bb68d354af1a38357fcf786afdac9",
+      "bytes": 2119
+    },
+    "unregisterHolder": {
+      "sha256": "2b4b876414c44b928d9946824df711f8c504ed3f87a7134ff0c23bdd39c70a97",
+      "bytes": 2119
+    }
+  },
+  "zkir": {
+    "registerHolder": {
+      "sha256": "bd2189beda13c11dce62d93991cdd2af51ed00892441572ab70c5bcdfa7f2f78",
+      "bytes": 600
+    },
+    "unregisterHolder": {
+      "sha256": "4bda82bead4608a5f78e2bd126bb5de46746831cda15ad46dc4d271798ad362c",
+      "bytes": 202
+    }
+  }
+}

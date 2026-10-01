@@ -1,0 +1,21 @@
+{
+  "name": "token-factory",
+  "role": "token",
+  "privateStateId": "tokenFactoryPrivateState",
+  "artifactPath": "managed/token-factory/contract/index.js",
+  "zkConfigPath": "managed/token-factory",
+  "circuits": [
+    "burn",
+    "mint"
+  ],
+  "pureCircuits": [
+    "domainOf",
+    "issuerKey"
+  ],
+  "compactCompiler": "0.31.0",
+  "compactRuntime": "0.16.0",
+  "languageVersion": "0.23.0",
+  "digest": "036d3f43aaa331aad279935a64d34a69e82b759aa1a2ae25e97fc6250f42f5f7",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/token-factory-v0.1.0",
+  "zkAssetLayout": "flat"
+}

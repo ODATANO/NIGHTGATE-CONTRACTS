@@ -1,0 +1,17 @@
+{
+  "name": "shielded-token",
+  "role": "token",
+  "privateStateId": "shieldedTokenPrivateState",
+  "artifactPath": "managed/shielded-token/contract/index.js",
+  "zkConfigPath": "managed/shielded-token",
+  "circuits": [
+    "mint"
+  ],
+  "pureCircuits": [],
+  "compactCompiler": "0.31.0",
+  "compactRuntime": "0.16.0",
+  "languageVersion": "0.23.0",
+  "digest": "eb93bfef4b6e8a868c18a337b6b195ab9bd81c100ac4f6455f852ac7712afbd9",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/shielded-token-v0.1.0",
+  "zkAssetLayout": "flat"
+}

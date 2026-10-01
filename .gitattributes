@@ -1,0 +1,6 @@
+# Text files are LF in the repository, whatever a contributor's core.autocrlf.
+* text=auto eol=lf
+
+# Compiled Compact / ZK artifacts are binary; keep them byte-intact.
+**/managed/**/keys/* binary
+**/managed/**/zkir/*.bzkir binary

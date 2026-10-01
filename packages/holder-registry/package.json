@@ -1,0 +1,45 @@
+{
+    "name": "@odatano/contract-holder-registry",
+    "version": "0.1.0",
+    "description": "Holder registry Compact contract: a token holder registers a claim key by a coin round trip and later proves the holding to a service with its preimage.",
+    "license": "Apache-2.0",
+    "author": "ODATANO",
+    "homepage": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ODATANO/NIGHTGATE-CONTRACTS.git",
+        "directory": "packages/holder-registry"
+    },
+    "keywords": [
+        "midnight",
+        "compact",
+        "nightgate",
+        "zero-knowledge"
+    ],
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./managed/holder-registry/contract/index.d.ts",
+            "default": "./managed/holder-registry/contract/index.js"
+        },
+        "./contract.json": "./contract.json",
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "contract.json",
+        "src/*.compact",
+        "managed/**/*",
+        "!managed/**/*.prover",
+        "README.md",
+        "LICENSE"
+    ],
+    "peerDependencies": {
+        "@midnight-ntwrk/compact-runtime": "0.16.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "prepublishOnly": "npm --prefix ../.. run check"
+    }
+}

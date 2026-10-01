@@ -1,0 +1,46 @@
+{
+    "name": "@odatano/contract-token-factory",
+    "version": "0.1.0",
+    "description": "Token factory Compact contract: shielded tokens on demand, named by their issuer, with a public supply ledger and burn. One deploy serves any number of tokens.",
+    "license": "Apache-2.0",
+    "author": "ODATANO",
+    "homepage": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ODATANO/NIGHTGATE-CONTRACTS.git",
+        "directory": "packages/token-factory"
+    },
+    "keywords": [
+        "midnight",
+        "compact",
+        "nightgate",
+        "zswap",
+        "token"
+    ],
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./managed/token-factory/contract/index.d.ts",
+            "default": "./managed/token-factory/contract/index.js"
+        },
+        "./contract.json": "./contract.json",
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "contract.json",
+        "src/*.compact",
+        "managed/**/*",
+        "!managed/**/*.prover",
+        "README.md",
+        "LICENSE"
+    ],
+    "peerDependencies": {
+        "@midnight-ntwrk/compact-runtime": "0.16.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "prepublishOnly": "npm --prefix ../.. run check"
+    }
+}

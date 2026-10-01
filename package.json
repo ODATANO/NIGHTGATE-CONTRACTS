@@ -1,0 +1,33 @@
+{
+    "name": "nightgate-contracts",
+    "private": true,
+    "description": "The NIGHTGATE contract lineages, one npm package each, plus their companion code (@odatano/contract-kit).",
+    "license": "Apache-2.0",
+    "type": "module",
+    "engines": {
+        "node": ">=22.12",
+        "npm": ">=11"
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "npm run build -w @odatano/contract-kit",
+        "test": "vitest run",
+        "test:circuits": "vitest run test/attestation-vault test/attestation-vault-32",
+        "manifest": "node scripts/write-key-manifest.mjs",
+        "manifest:check": "node scripts/write-key-manifest.mjs --check",
+        "contract-json": "node scripts/write-contract-json.mjs",
+        "contract-json:check": "node scripts/write-contract-json.mjs --check",
+        "check:parity": "node scripts/check-vault-parity.mjs",
+        "check:rebuild": "node scripts/check-rebuild.mjs",
+        "check:pack": "node scripts/check-pack.mjs",
+        "check": "npm run build && npm run manifest:check && npm run contract-json:check && npm run check:parity && npm run check:pack && npm test"
+    },
+    "devDependencies": {
+        "@midnight-ntwrk/compact-runtime": "0.16.0",
+        "@types/node": "^22",
+        "typescript": "^5",
+        "vitest": "^4.1.10"
+    }
+}

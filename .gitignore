@@ -1,0 +1,15 @@
+node_modules/
+packages/contract-kit/dist/
+*.tgz
+coverage/
+
+# Prover keys are build output: CI rebuilds them from the source with the
+# pinned compiler and a tag uploads them as release assets. keys/manifest.json
+# pins their bytes and is committed.
+**/keys/*.prover
+
+# Local build scratch
+.build/
+
+# private context: requests, notes; never published
+local_docs/

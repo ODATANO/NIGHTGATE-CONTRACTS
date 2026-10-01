@@ -1,0 +1,70 @@
+pragma language_version >= 0.20;
+
+import CompactStandardLibrary;
+
+// ============================================================================
+// TOKEN FACTORY — shielded tokens on demand, any number of them.
+//
+// - A token is named by its issuer: domain = hash(issuer key, name), and its
+//   token type is tokenType(domain, this contract). One deploy serves every
+//   token, and nobody but the issuer can mint more of one: another secret
+//   gives another domain, so another type.
+// - The issuer key is a hash of the issuer's secret; the secret stays with the
+//   issuer (witness).
+// - `tokens` lists every token minted here with its issuer, name and supply in
+//   circulation, so anyone can discover a type and check who stands behind it.
+// - `burn` takes coins out of circulation again.
+// ============================================================================
+
+export struct Token {
+  issuer: Bytes<32>;
+  name: Bytes<32>;
+  supply: Uint<128>;
+}
+
+export ledger tokens: Map<Bytes<32>, Token>;
+// feeds evolveNonce so every minted coin gets a fresh nonce
+export ledger round: Counter;
+
+witness issuerSecret(): Bytes<32>;
+
+export pure circuit issuerKey(secret: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([pad(32, "tokenfactory:issuer"), secret]);
+}
+
+export pure circuit domainOf(issuer: Bytes<32>, name: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>([pad(32, "tokenfactory:domain"), issuer, name]);
+}
+
+// Mint `amount` of the caller's token `name` to `recipient`. The first mint of
+// a name creates the token.
+export circuit mint(name: Bytes<32>, amount: Uint<64>, recipient: ZswapCoinPublicKey): [] {
+  const issuer = disclose(issuerKey(issuerSecret()));
+  const n = disclose(name);
+  const a = disclose(amount);
+  assert(a > 0, "nothing to mint");
+  const domain = domainOf(issuer, n);
+  const before = tokens.member(domain) ? tokens.lookup(domain).supply : 0 as Uint<128>;
+  tokens.insert(domain, Token { issuer: issuer, name: n, supply: (before + a) as Uint<128> });
+  round.increment(1);
+  mintShieldedToken(
+    domain,
+    a,
+    evolveNonce(round.read() as Uint<128>, domain),
+    left<ZswapCoinPublicKey, ContractAddress>(disclose(recipient))
+  );
+}
+
+// Anyone may burn coins of a factory token they hold; `domain` names the token.
+export circuit burn(domain: Bytes<32>, coin: ShieldedCoinInfo): [] {
+  const d = disclose(domain);
+  const c = disclose(coin);
+  assert(tokens.member(d), "not a token of this factory");
+  assert(c.color == tokenType(d, kernel.self()), "the coin is not of this token");
+  assert(c.value > 0, "empty burn");
+  const t = tokens.lookup(d);
+  assert(t.supply >= c.value, "burns more than circulates");
+  receiveShielded(c);
+  sendImmediateShielded(c, shieldedBurnAddress(), c.value);
+  tokens.insert(d, Token { issuer: t.issuer, name: t.name, supply: (t.supply - c.value) as Uint<128> });
+}

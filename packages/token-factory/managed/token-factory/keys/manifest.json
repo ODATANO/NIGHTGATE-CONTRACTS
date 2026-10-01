@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "prover": {
+    "burn": {
+      "sha256": "49ce5361e3965b94e1a6831bb91ae89442c027dd7812a5ec2f1a01927f53ec90",
+      "bytes": 9983870
+    },
+    "mint": {
+      "sha256": "e3bd4d6d40d25d98d88cb3123caa5d25d56b5fbdcae3099230cbae6881fee834",
+      "bytes": 9978376
+    }
+  },
+  "verifier": {
+    "burn": {
+      "sha256": "778e2b31b7118c2c804987a757879d826696ee8f977bb1fe601c7d3fff015913",
+      "bytes": 2119
+    },
+    "mint": {
+      "sha256": "24c8a7e9b50249273dc669b921325f85961c0e050ef9ddf996f32b10bacf9740",
+      "bytes": 2119
+    }
+  },
+  "zkir": {
+    "burn": {
+      "sha256": "b07a0a5302bf422f17099fcac9e3e07f6989717c70cfdce333b76a6800f950eb",
+      "bytes": 803
+    },
+    "mint": {
+      "sha256": "ce0f103be05cdac0b1bfc804aead8e391069805eaff34cdb8a93ca5e3e06556c",
+      "bytes": 911
+    }
+  }
+}
