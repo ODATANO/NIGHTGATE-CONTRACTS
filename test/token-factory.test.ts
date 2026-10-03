@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, test, expect, beforeAll } from 'vitest';
 import {
     tokenName, nameOf, issuerKeyOf, domainOf, tokenTypeOf, prepareMint, prepareBurn, tokenFactoryWitnesses,
-    bytesToHex, TOKEN_FACTORY_CIRCUITS
+    bytesToHex, TOKEN_FACTORY_CIRCUITS, deriveTokenFactoryIssuerSecret, deriveAttestationSecret
 } from '@odatano/contract-kit';
 
 const repoRoot = fileURLToPath(new URL('..', import.meta.url));
@@ -63,6 +63,17 @@ describe('token names', () => {
         expect(nameOf(n)).toBe('CREDIT');
         expect(nameOf(tokenName(''))).toBe('');
         expect(() => tokenName('x'.repeat(33))).toThrow(/longer than 32 bytes/);
+    });
+});
+
+describe('issuer secret of a seed', () => {
+    test('is 32 bytes, deterministic, per seed, and not the vault secret of the same seed', () => {
+        const seed = new Uint8Array(32).fill(7);
+        const a = deriveTokenFactoryIssuerSecret(seed);
+        expect(a).toHaveLength(32);
+        expect(bytesToHex(deriveTokenFactoryIssuerSecret(seed))).toBe(bytesToHex(a));
+        expect(bytesToHex(deriveTokenFactoryIssuerSecret(new Uint8Array(32).fill(8)))).not.toBe(bytesToHex(a));
+        expect(bytesToHex(deriveAttestationSecret(seed))).not.toBe(bytesToHex(a));
     });
 });
 

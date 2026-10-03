@@ -70,7 +70,8 @@ together; CI fails when a fresh compile differs from the commit
 Bump the package version, run `npm run contract-json` (the asset URL follows
 the version), commit, then tag `<name>-v<version>`. The release workflow
 rebuilds the prover keys, verifies them against the manifest and uploads them
-as release assets of that tag. Publishing to npm is a local step with the
+as release assets of that tag. Push at most three tags per `git push`: GitHub
+raises no push event for more, and the workflow never starts. Publishing to npm is a local step with the
 account's second factor:
 
 ```bash

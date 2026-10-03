@@ -4,10 +4,23 @@
  * a `mint` or `burn` call.
  */
 
+import { hmac } from '@noble/hashes/hmac';
+import { sha256 } from '@noble/hashes/sha256';
 import { hexToBytes32, bytesToHex } from './hex.js';
 
 /** The factory's circuits, for key fetches by circuit list. */
 export const TOKEN_FACTORY_CIRCUITS = Object.freeze(['mint', 'burn'] as const);
+
+const TOKEN_FACTORY_ISSUER_LABEL = 'nightgate/token-factory-issuer/v1';
+
+/**
+ * HMAC-SHA256(material, label) -> the 32-byte issuer secret behind the `issuerSecret()`
+ * witness. Fed the wallet's zswap role seed, the same seed is the same issuer wherever
+ * it mints; its own label keeps it apart from the vault secret of the same seed.
+ */
+export function deriveTokenFactoryIssuerSecret(material: Uint8Array): Uint8Array {
+    return hmac(sha256, material, new TextEncoder().encode(TOKEN_FACTORY_ISSUER_LABEL));
+}
 
 export interface TokenFactoryPureCircuits {
     issuerKey(secret: Uint8Array): Uint8Array;

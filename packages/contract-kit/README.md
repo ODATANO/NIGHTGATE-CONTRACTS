@@ -18,7 +18,7 @@ npm install @odatano/contract-kit @midnight-ntwrk/compact-runtime@0.16.0
 - `buildAttestationVaultWitnesses`, `deriveAttestationSecret`, `generateAttestationSecret`, `sealAttestationSecret`, `openAttestationSecret`: the vault witnesses and the attester secret.
 - `prepareAttest`, `prepareAnchorContentRoot`, `prepareProveFieldPredicate`, … , `recordKeyOf`: typed call inputs for every vault circuit.
 - `holderClaimKey`, `holderEntry`, `HOLDER_REGISTRY_CIRCUITS`: the holder registry's claim key rule.
-- `tokenName`, `issuerKeyOf`, `domainOf`, `tokenTypeOf`, `tokenFactoryWitnesses`, `prepareMint`, `prepareBurn`, `TOKEN_FACTORY_CIRCUITS`: the token factory's names, types and call inputs.
+- `tokenName`, `issuerKeyOf`, `domainOf`, `tokenTypeOf`, `tokenFactoryWitnesses`, `prepareMint`, `prepareBurn`, `TOKEN_FACTORY_CIRCUITS`: the token factory's names, types and call inputs; `deriveTokenFactoryIssuerSecret(seed)`: the issuer secret of a wallet seed.
 - `InMemoryPrivateStateProvider`: for contracts without private state.
 
 ## `@odatano/contract-kit/node`
