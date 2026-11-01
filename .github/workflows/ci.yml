@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        lineage: [counter, shielded-token, token-factory, holder-registry, attestation-vault, attestation-vault-32]
+        lineage: [counter, shielded-token, token-factory, holder-registry, attestation-vault, attestation-vault-32, m402-vault]
     steps:
       - uses: actions/checkout@v5
 

@@ -11,6 +11,7 @@ one npm package each, and their companion code.
 | `@odatano/contract-holder-registry` | holder registry | a token holder registers a claim key by a coin round trip |
 | `@odatano/contract-shielded-token` | token | shielded test token exercising the zswap circuits |
 | `@odatano/contract-token-factory` | token | shielded tokens on demand, named by their issuer, with a supply ledger and burn |
+| `@odatano/contract-m402-vault` | payment | NIGHT against a shielded credit, services paid in private, receipts in the public ledger |
 | `@odatano/contract-counter` | example | one circuit, the deploy and call fixture |
 
 ## Layout of a lineage package

@@ -16,7 +16,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # compile into instead of packages/ (the reproducible-build check).
 PKG_BASE="${COMPACT_ROOT:+$(cd "$COMPACT_ROOT" && pwd)}"
 PKG_BASE="${PKG_BASE:-$ROOT/packages}"
-ALL=(counter shielded-token token-factory holder-registry attestation-vault attestation-vault-32)
+ALL=(counter shielded-token token-factory holder-registry attestation-vault attestation-vault-32 m402-vault)
 TARGETS=("$@")
 [ ${#TARGETS[@]} -eq 0 ] && TARGETS=("${ALL[@]}")
 

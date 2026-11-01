@@ -1,0 +1,49 @@
+{
+    "name": "@odatano/contract-m402-vault",
+    "version": "0.1.0",
+    "description": "m402 payment vault Compact contract: NIGHT pooled against a shielded credit, services paid in private, receipts checked in the public ledger.",
+    "license": "Apache-2.0",
+    "author": "ODATANO",
+    "homepage": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ODATANO/NIGHTGATE-CONTRACTS.git",
+        "directory": "packages/m402-vault"
+    },
+    "keywords": [
+        "midnight",
+        "compact",
+        "nightgate",
+        "payment",
+        "m402"
+    ],
+    "type": "module",
+    "main": "./managed/m402-vault/contract/index.js",
+    "types": "./managed/m402-vault/contract/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./managed/m402-vault/contract/index.d.ts",
+            "default": "./managed/m402-vault/contract/index.js"
+        },
+        "./contract.json": "./contract.json",
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "contract.json",
+        "src/*.compact",
+        "managed/**/*",
+        "!managed/**/*.prover",
+        "README.md",
+        "LICENSE",
+        "NOTICE"
+    ],
+    "peerDependencies": {
+        "@midnight-ntwrk/compact-runtime": "0.16.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "prepublishOnly": "npm --prefix ../.. run check"
+    }
+}

@@ -11,7 +11,8 @@ export const LINEAGES = Object.freeze([
     { name: 'token-factory', role: 'token', privateStateId: 'tokenFactoryPrivateState' },
     { name: 'holder-registry', role: 'holder-registry', privateStateId: 'holderRegistryPrivateState' },
     { name: 'attestation-vault', role: 'attestation', privateStateId: 'attestationVaultPrivateState', slotWidth: 16 },
-    { name: 'attestation-vault-32', role: 'attestation', privateStateId: 'attestationVaultPrivateState', slotWidth: 32 }
+    { name: 'attestation-vault-32', role: 'attestation', privateStateId: 'attestationVaultPrivateState', slotWidth: 32 },
+    { name: 'm402-vault', role: 'payment', privateStateId: 'm402VaultPrivateState' }
 ]);
 
 export function packageDir(name) {

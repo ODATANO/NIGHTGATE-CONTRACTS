@@ -1,0 +1,25 @@
+{
+  "name": "m402-vault",
+  "role": "payment",
+  "privateStateId": "m402VaultPrivateState",
+  "artifactPath": "managed/m402-vault/contract/index.js",
+  "zkConfigPath": "managed/m402-vault",
+  "circuits": [
+    "deposit",
+    "pay",
+    "redeem",
+    "registerService",
+    "withdraw"
+  ],
+  "pureCircuits": [
+    "creditColor",
+    "deriveReceipt",
+    "deriveServiceId"
+  ],
+  "compactCompiler": "0.31.0",
+  "compactRuntime": "0.16.0",
+  "languageVersion": "0.23.0",
+  "digest": "c4ea80c8f05e5d7a7b7674babd2f993dd2e18448954fd0b74d33a82e0b33a0af",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/m402-vault-v0.1.0",
+  "zkAssetLayout": "flat"
+}

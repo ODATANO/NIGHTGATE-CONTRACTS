@@ -7,7 +7,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { computeArtifactGenerationDigest } from './digest.js';
 
-export type ContractRole = 'attestation' | 'token' | 'holder-registry' | 'example';
+export type ContractRole = 'attestation' | 'token' | 'holder-registry' | 'payment' | 'example';
 
 /** How prover keys are laid out under `zkAssetUrl`: `/zk-config` (`keys/<circuit>.prover`) or flat (`<circuit>.prover`, release assets). */
 export type ZkAssetLayout = 'zk-config' | 'flat';

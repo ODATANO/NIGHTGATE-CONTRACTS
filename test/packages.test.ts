@@ -19,7 +19,8 @@ const PINNED: Record<string, string> = {
     'token-factory': '036d3f43aaa331aad279935a64d34a69e82b759aa1a2ae25e97fc6250f42f5f7',
     'holder-registry': '0384d67ef245ddca17c7b99de1cdbdf3c1dbd8e97a4ac6a19809314bd68ed50c',
     'attestation-vault': '6537607ae62e5deb05de9b055dfe204227fdcb45d17df54d010c3a4a407b3015',
-    'attestation-vault-32': '49b05093f9955f2935aeb67e6352f827861c03a90c5128b59a1824b37b98e81c'
+    'attestation-vault-32': '49b05093f9955f2935aeb67e6352f827861c03a90c5128b59a1824b37b98e81c',
+    'm402-vault': 'c4ea80c8f05e5d7a7b7674babd2f993dd2e18448954fd0b74d33a82e0b33a0af'
 };
 
 describe('lineage packages', () => {

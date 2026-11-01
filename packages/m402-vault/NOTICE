@@ -1,0 +1,9 @@
+@odatano/contract-m402-vault
+Copyright 2026 ODATANO
+
+This package contains a modified version of the m402 payment vault contract
+(contracts/src/m402Vault.compact) from https://github.com/julianariel/m402,
+Copyright 2026 The m402 contributors, licensed under the Apache License 2.0.
+
+Changes: the witnesses creditCoin, redeemCoin, nonceSeed and receiptSecret
+became parameters of the circuits deposit, pay and redeem; comments rewritten.

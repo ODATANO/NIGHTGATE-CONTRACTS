@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "prover": {
+    "deposit": {
+      "sha256": "51f8a8a7822528a16a805a80f0f0cdf296dc95adce86c1d5be7016165c78779e",
+      "bytes": 9999493
+    },
+    "pay": {
+      "sha256": "e4d51dee7020d28f57dc94805382407dd46958b1210909c00cf01ae36b950faf",
+      "bytes": 5213951
+    },
+    "redeem": {
+      "sha256": "3d8dabe51ee5d658858ca7123b94678bb0021f4e2fb290e2ea3dadf42b7c7f38",
+      "bytes": 5205208
+    },
+    "registerService": {
+      "sha256": "a859c05aaa84232cde038e3e8167cce5124cec530309342b0df38f7458db548c",
+      "bytes": 2831210
+    },
+    "withdraw": {
+      "sha256": "319d266705a116d18f5125519a85289357e893bb46c420a5fbf60cfdc3685958",
+      "bytes": 155408
+    }
+  },
+  "verifier": {
+    "deposit": {
+      "sha256": "2fe8c9e4e158010f91137871f2ba8cd5b9f7b824be5b0c2a6f8b9be5504ea6b0",
+      "bytes": 2119
+    },
+    "pay": {
+      "sha256": "d82561afebe31a5d31823e407e9a378472791673dcdab2963953965214bd7283",
+      "bytes": 2119
+    },
+    "redeem": {
+      "sha256": "9e70ccacfdef50565c07af9c34c704fb1be21803aa5ea3e3f7a2f64428b612e0",
+      "bytes": 2119
+    },
+    "registerService": {
+      "sha256": "fe28cea6df359f5a1d137104bafe9f10a841b58af00bafdf6ec8312d74ad4647",
+      "bytes": 2119
+    },
+    "withdraw": {
+      "sha256": "d9e875f79bc254125b9e827784c67e02fa1148a3c4c816cc2f6891320b6852bf",
+      "bytes": 1351
+    }
+  },
+  "zkir": {
+    "deposit": {
+      "sha256": "db09a673dc6cb4234a7b7d9c5655ae40558e9c2c3fb83c7eabe4250c3c903788",
+      "bytes": 1147
+    },
+    "pay": {
+      "sha256": "36e76ffd30649ce21e02d08d289d46c39caef8681cbe299300761d8e0061d9e4",
+      "bytes": 853
+    },
+    "redeem": {
+      "sha256": "86b5b86b9f55d5ca9f364f39849a47120b52209a96241056d0d5376ab126c0de",
+      "bytes": 671
+    },
+    "registerService": {
+      "sha256": "3b857ab45c4a24af3c35c7d68c8bb0727056352018213835e767b869eaa19faf",
+      "bytes": 364
+    },
+    "withdraw": {
+      "sha256": "f2df93d9c2daa7ed1cda84b8c2f64ebb5c8f8f2b731ab8905d16dc8c388c6e89",
+      "bytes": 703
+    }
+  }
+}
