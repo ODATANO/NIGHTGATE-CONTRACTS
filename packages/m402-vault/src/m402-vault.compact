@@ -3,7 +3,7 @@
 
 // Modified from m402 (https://github.com/julianariel/m402), Apache-2.0.
 // Copyright 2026 The m402 contributors. Changed: witnesses became circuit parameters.
-pragma language_version 0.23;
+pragma language_version >= 0.23;
 
 import CompactStandardLibrary;
 

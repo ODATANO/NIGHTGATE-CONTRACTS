@@ -11,10 +11,10 @@
   "pureCircuits": [
     "holderEntry"
   ],
-  "compactCompiler": "0.31.0",
-  "compactRuntime": "0.16.0",
-  "languageVersion": "0.23.0",
-  "digest": "0384d67ef245ddca17c7b99de1cdbdf3c1dbd8e97a4ac6a19809314bd68ed50c",
-  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/holder-registry-v0.1.0",
+  "compactCompiler": "0.36.0",
+  "compactRuntime": "0.21.0",
+  "languageVersion": "0.28.0",
+  "digest": "7b6c5c6a4e00def33590125d0a145249ccb218b80a20ad408148d370968ebc06",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/holder-registry-v0.2.0",
   "zkAssetLayout": "flat"
 }

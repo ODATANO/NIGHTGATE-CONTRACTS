@@ -14,13 +14,13 @@ const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 
 /** Generation digests of the shipped artifacts. */
 const PINNED: Record<string, string> = {
-    'counter': 'bd30a06bb1851a6c41f0869c25e0c02a7e8b4ca0b5b12db3d9edf4e17ff3a12a',
-    'shielded-token': 'eb93bfef4b6e8a868c18a337b6b195ab9bd81c100ac4f6455f852ac7712afbd9',
-    'token-factory': '036d3f43aaa331aad279935a64d34a69e82b759aa1a2ae25e97fc6250f42f5f7',
-    'holder-registry': '0384d67ef245ddca17c7b99de1cdbdf3c1dbd8e97a4ac6a19809314bd68ed50c',
-    'attestation-vault': '6537607ae62e5deb05de9b055dfe204227fdcb45d17df54d010c3a4a407b3015',
-    'attestation-vault-32': '49b05093f9955f2935aeb67e6352f827861c03a90c5128b59a1824b37b98e81c',
-    'm402-vault': 'c4ea80c8f05e5d7a7b7674babd2f993dd2e18448954fd0b74d33a82e0b33a0af'
+    'counter': '7ad472159299fab6d4ced649408eccce92ca0308066cc4dbf7882d5e3c64929f',
+    'shielded-token': '541297ffd10453b656f5cdaa6163ef49ae51d029ecbb1602e51dd5979aa3625e',
+    'token-factory': '3caeab2c0b4346d0b83e3aea045bf1dc7fd3bcdc81d94c0a3ea98a50f1bc3f78',
+    'holder-registry': '7b6c5c6a4e00def33590125d0a145249ccb218b80a20ad408148d370968ebc06',
+    'attestation-vault': '6a47d38c3a852c137f3fd77a68ba75953b0065b2c1ea58cd754db79a82e8dad0',
+    'attestation-vault-32': '6969eb7451570740a49482839aab46691ebd58a9df025d415db0174613206409',
+    'm402-vault': '29fe922cc6bb62f2404bc7ce0a455ba73c23743de2e26187a4a8e78ce55e6477'
 };
 
 describe('lineage packages', () => {
@@ -42,7 +42,7 @@ describe('lineage packages', () => {
                 expect(fs.existsSync(resolved.artifactPath)).toBe(true);
                 expect(resolved.manifest.circuits).toEqual(verifierCircuits(resolved.zkConfigPath));
                 expect(resolved.manifest.zkAssetUrl).toBe(`https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/${l.name}-v${resolved.version}`);
-                expect(resolved.manifest.compactRuntime).toBe('0.16.0');
+                expect(resolved.manifest.compactRuntime).toBe('0.21.0');
                 expect(contractPackageDigestProblem(resolved)).toBeNull();
                 expect(checkKeyManifest(resolved.zkConfigPath)).toEqual([]);
             });

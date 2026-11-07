@@ -12,10 +12,10 @@
     "domainOf",
     "issuerKey"
   ],
-  "compactCompiler": "0.31.0",
-  "compactRuntime": "0.16.0",
-  "languageVersion": "0.23.0",
-  "digest": "036d3f43aaa331aad279935a64d34a69e82b759aa1a2ae25e97fc6250f42f5f7",
-  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/token-factory-v0.1.0",
+  "compactCompiler": "0.36.0",
+  "compactRuntime": "0.21.0",
+  "languageVersion": "0.28.0",
+  "digest": "3caeab2c0b4346d0b83e3aea045bf1dc7fd3bcdc81d94c0a3ea98a50f1bc3f78",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/token-factory-v0.2.0",
   "zkAssetLayout": "flat"
 }

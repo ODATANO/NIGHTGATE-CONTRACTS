@@ -29,10 +29,10 @@
     "setLeafHash",
     "slotSalt"
   ],
-  "compactCompiler": "0.31.0",
-  "compactRuntime": "0.16.0",
-  "languageVersion": "0.23.0",
-  "digest": "6537607ae62e5deb05de9b055dfe204227fdcb45d17df54d010c3a4a407b3015",
-  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/attestation-vault-v0.1.0",
+  "compactCompiler": "0.36.0",
+  "compactRuntime": "0.21.0",
+  "languageVersion": "0.28.0",
+  "digest": "6a47d38c3a852c137f3fd77a68ba75953b0065b2c1ea58cd754db79a82e8dad0",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/attestation-vault-v0.2.0",
   "zkAssetLayout": "flat"
 }

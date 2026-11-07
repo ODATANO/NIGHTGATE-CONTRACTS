@@ -2,32 +2,32 @@
   "version": 1,
   "prover": {
     "registerHolder": {
-      "sha256": "5841fb7b83e1e917e7f3231425dc5f2da4a8ca1f142da5cfca7de7f832643840",
-      "bytes": 9990553
+      "sha256": "2d8f75ac9fae020cbf11ded9769361a15a9ca908e288aaf21c4f7ffe162c249a",
+      "bytes": 45095020
     },
     "unregisterHolder": {
-      "sha256": "23f13ef556ee83179ae069043e7f50a9bb26a55f79ff7e916d374f61460d25e7",
-      "bytes": 2820419
+      "sha256": "4156e9cab3f0ce171ddb4d0caa35cd44726d5fa0b340ad34f8f405c6d40a1f8d",
+      "bytes": 11277157
     }
   },
   "verifier": {
     "registerHolder": {
-      "sha256": "5e571c27419a227c42bba0a9293cb56d968bb68d354af1a38357fcf786afdac9",
-      "bytes": 2119
+      "sha256": "0f22df5c9a1c8094020eb7a4fe07d433672f1ae641eda00ce83b3cb8d4d30588",
+      "bytes": 2121
     },
     "unregisterHolder": {
-      "sha256": "2b4b876414c44b928d9946824df711f8c504ed3f87a7134ff0c23bdd39c70a97",
-      "bytes": 2119
+      "sha256": "54d500f28555dae3a46369404c388dd5f29ea3ac328bca4f7e34b5c99e1d1e59",
+      "bytes": 2121
     }
   },
   "zkir": {
     "registerHolder": {
-      "sha256": "bd2189beda13c11dce62d93991cdd2af51ed00892441572ab70c5bcdfa7f2f78",
-      "bytes": 600
+      "sha256": "9e0c230c14e74a9afa33f9174fa5d788eec421168f7fd9b8908fb0d24e63e03c",
+      "bytes": 1884
     },
     "unregisterHolder": {
-      "sha256": "4bda82bead4608a5f78e2bd126bb5de46746831cda15ad46dc4d271798ad362c",
-      "bytes": 202
+      "sha256": "f1db1238a09b6f99da7410f87d5681805488131a1232adadbbbb4f56824c5b38",
+      "bytes": 597
     }
   }
 }

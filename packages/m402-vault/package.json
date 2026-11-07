@@ -1,6 +1,6 @@
 {
     "name": "@odatano/contract-m402-vault",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "m402 payment vault Compact contract: NIGHT pooled against a shielded credit, services paid in private, receipts checked in the public ledger.",
     "license": "Apache-2.0",
     "author": "ODATANO",
@@ -38,7 +38,7 @@
         "NOTICE"
     ],
     "peerDependencies": {
-        "@midnight-ntwrk/compact-runtime": "0.16.0"
+        "@midnight-ntwrk/compact-runtime": "0.21.0"
     },
     "publishConfig": {
         "access": "public"

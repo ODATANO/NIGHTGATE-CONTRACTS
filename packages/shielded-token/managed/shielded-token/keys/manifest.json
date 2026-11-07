@@ -2,20 +2,20 @@
   "version": 1,
   "prover": {
     "mint": {
-      "sha256": "289015649c5585fbaf63c3e57a1a4438532eaf509558546458a9e95f2778555c",
-      "bytes": 5214179
+      "sha256": "edead59be4b414cb5432c3e194c50aebd1d96eecd656dde35238be0b0af3a50f",
+      "bytes": 22550232
     }
   },
   "verifier": {
     "mint": {
-      "sha256": "15f831f11f5b2959d525386315919483d991c835fb86a2cd5b832970775dd325",
-      "bytes": 2119
+      "sha256": "811645350850de8821311adcacfb5946224e520e039305427b9922679f288ec0",
+      "bytes": 2121
     }
   },
   "zkir": {
     "mint": {
-      "sha256": "470a23ed3361cab1a3798d4c4148e3cca355436c20cc08a478e53dc045a58c23",
-      "bytes": 563
+      "sha256": "f62a373c33f33926250fa3a71020feb8b1d82aa346a4af629316a151cc41f194",
+      "bytes": 1480
     }
   }
 }

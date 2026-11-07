@@ -1,5 +1,5 @@
 import * as __compactRuntime from '@midnight-ntwrk/compact-runtime';
-__compactRuntime.checkRuntimeVersion('0.16.0');
+__compactRuntime.checkRuntimeVersion('0.21.0');
 
 const _descriptor_0 = new __compactRuntime.CompactTypeBytes(32);
 
@@ -387,6 +387,59 @@ class _ContractAddress_0 {
 
 const _descriptor_31 = new _ContractAddress_0();
 
+class _UserAddress_0 {
+  alignment() {
+    return _descriptor_0.alignment();
+  }
+  fromValue(value_0) {
+    return {
+      bytes: _descriptor_0.fromValue(value_0)
+    }
+  }
+  toValue(value_0) {
+    return _descriptor_0.toValue(value_0.bytes);
+  }
+}
+
+const _descriptor_32 = new _UserAddress_0();
+
+class _Either_1 {
+  alignment() {
+    return _descriptor_3.alignment().concat(_descriptor_31.alignment().concat(_descriptor_32.alignment()));
+  }
+  fromValue(value_0) {
+    return {
+      is_left: _descriptor_3.fromValue(value_0),
+      left: _descriptor_31.fromValue(value_0),
+      right: _descriptor_32.fromValue(value_0)
+    }
+  }
+  toValue(value_0) {
+    return _descriptor_3.toValue(value_0.is_left).concat(_descriptor_31.toValue(value_0.left).concat(_descriptor_32.toValue(value_0.right)));
+  }
+}
+
+const _descriptor_33 = new _Either_1();
+
+class _Maybe_0 {
+  alignment() {
+    return _descriptor_3.alignment().concat(_descriptor_33.alignment());
+  }
+  fromValue(value_0) {
+    return {
+      is_some: _descriptor_3.fromValue(value_0),
+      value: _descriptor_33.fromValue(value_0)
+    }
+  }
+  toValue(value_0) {
+    return _descriptor_3.toValue(value_0.is_some).concat(_descriptor_33.toValue(value_0.value));
+  }
+}
+
+const _descriptor_34 = new _Maybe_0();
+
+const _descriptor_35 = new __compactRuntime.CompactTypeUnsignedInteger(4294967295n, 4);
+
 export class Contract {
   witnesses;
   constructor(...args_0) {
@@ -438,41 +491,41 @@ export class Contract {
     }
     this.witnesses = witnesses_0;
     this.circuits = {
-      leafHash(context, ...args_1) {
+      async leafHash(context, ...args_1) {
         return { result: pureCircuits.leafHash(...args_1), context };
       },
-      bytesLeafHash(context, ...args_1) {
+      async bytesLeafHash(context, ...args_1) {
         return { result: pureCircuits.bytesLeafHash(...args_1), context };
       },
-      absentLeafHash(context, ...args_1) {
+      async absentLeafHash(context, ...args_1) {
         return { result: pureCircuits.absentLeafHash(...args_1), context };
       },
-      nodeHash(context, ...args_1) {
+      async nodeHash(context, ...args_1) {
         return { result: pureCircuits.nodeHash(...args_1), context };
       },
-      setLeafHash(context, ...args_1) {
+      async setLeafHash(context, ...args_1) {
         return { result: pureCircuits.setLeafHash(...args_1), context };
       },
-      descriptorLeafHash(context, ...args_1) {
+      async descriptorLeafHash(context, ...args_1) {
         return { result: pureCircuits.descriptorLeafHash(...args_1), context };
       },
-      slotSalt(context, ...args_1) {
+      async slotSalt(context, ...args_1) {
         return { result: pureCircuits.slotSalt(...args_1), context };
       },
-      emptyLeafKey(context, ...args_1) {
+      async emptyLeafKey(context, ...args_1) {
         return { result: pureCircuits.emptyLeafKey(...args_1), context };
       },
-      recordKey(context, ...args_1) {
+      async recordKey(context, ...args_1) {
         return { result: pureCircuits.recordKey(...args_1), context };
       },
-      attest: (...args_1) => {
+      attest: async (...args_1) => {
         if (args_1.length !== 3) {
           throw new __compactRuntime.CompactError(`attest: expected 3 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
         const contextOrig_0 = args_1[0];
         const payload_hash_0 = args_1[1];
         const metadata_hash_0 = args_1[2];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('attest',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 577 char 1',
@@ -493,7 +546,7 @@ export class Contract {
                                      'Bytes<32>',
                                      metadata_hash_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(payload_hash_0).concat(_descriptor_0.toValue(metadata_hash_0)),
@@ -503,21 +556,22 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._attest_0(context,
-                                        partialProofData,
-                                        payload_hash_0,
-                                        metadata_hash_0);
+        const result_0 = await this._attest_0(context,
+                                              partialProofData,
+                                              payload_hash_0,
+                                              metadata_hash_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      retract: (...args_1) => {
+      retract: async (...args_1) => {
         if (args_1.length !== 3) {
           throw new __compactRuntime.CompactError(`retract: expected 3 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
         const contextOrig_0 = args_1[0];
         const mode_0 = args_1[1];
         const key_0 = args_1[2];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('retract',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 591 char 1',
@@ -538,7 +592,7 @@ export class Contract {
                                      'Bytes<32>',
                                      key_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_4.toValue(mode_0).concat(_descriptor_0.toValue(key_0)),
@@ -548,14 +602,15 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._retract_0(context,
-                                         partialProofData,
-                                         mode_0,
-                                         key_0);
+        const result_0 = await this._retract_0(context,
+                                               partialProofData,
+                                               mode_0,
+                                               key_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      grantDisclosure: (...args_1) => {
+      grantDisclosure: async (...args_1) => {
         if (args_1.length !== 4) {
           throw new __compactRuntime.CompactError(`grantDisclosure: expected 4 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -563,7 +618,7 @@ export class Contract {
         const payload_hash_0 = args_1[1];
         const grantee_0 = args_1[2];
         const level_0 = args_1[3];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('grantDisclosure',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 605 char 1',
@@ -591,7 +646,7 @@ export class Contract {
                                      'Uint<0..256>',
                                      level_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(payload_hash_0).concat(_descriptor_0.toValue(grantee_0).concat(_descriptor_4.toValue(level_0))),
@@ -601,22 +656,23 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._grantDisclosure_0(context,
-                                                 partialProofData,
-                                                 payload_hash_0,
-                                                 grantee_0,
-                                                 level_0);
+        const result_0 = await this._grantDisclosure_0(context,
+                                                       partialProofData,
+                                                       payload_hash_0,
+                                                       grantee_0,
+                                                       level_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      revokeDisclosure: (...args_1) => {
+      revokeDisclosure: async (...args_1) => {
         if (args_1.length !== 3) {
           throw new __compactRuntime.CompactError(`revokeDisclosure: expected 3 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
         const contextOrig_0 = args_1[0];
         const payload_hash_0 = args_1[1];
         const grantee_0 = args_1[2];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('revokeDisclosure',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 620 char 1',
@@ -637,7 +693,7 @@ export class Contract {
                                      'Bytes<32>',
                                      grantee_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(payload_hash_0).concat(_descriptor_0.toValue(grantee_0)),
@@ -647,14 +703,15 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._revokeDisclosure_0(context,
-                                                  partialProofData,
-                                                  payload_hash_0,
-                                                  grantee_0);
+        const result_0 = await this._revokeDisclosure_0(context,
+                                                        partialProofData,
+                                                        payload_hash_0,
+                                                        grantee_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      registerDocument: (...args_1) => {
+      registerDocument: async (...args_1) => {
         if (args_1.length !== 4) {
           throw new __compactRuntime.CompactError(`registerDocument: expected 4 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -662,7 +719,7 @@ export class Contract {
         const mode_0 = args_1[1];
         const document_id_0 = args_1[2];
         const owner_id_0 = args_1[3];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('registerDocument',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 652 char 1',
@@ -690,7 +747,7 @@ export class Contract {
                                      'Bytes<32>',
                                      owner_id_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_4.toValue(mode_0).concat(_descriptor_0.toValue(document_id_0).concat(_descriptor_0.toValue(owner_id_0))),
@@ -700,22 +757,23 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._registerDocument_0(context,
-                                                  partialProofData,
-                                                  mode_0,
-                                                  document_id_0,
-                                                  owner_id_0);
+        const result_0 = await this._registerDocument_0(context,
+                                                        partialProofData,
+                                                        mode_0,
+                                                        document_id_0,
+                                                        owner_id_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      bindDocument: (...args_1) => {
+      bindDocument: async (...args_1) => {
         if (args_1.length !== 3) {
           throw new __compactRuntime.CompactError(`bindDocument: expected 3 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
         const contextOrig_0 = args_1[0];
         const document_id_0 = args_1[1];
         const payload_hash_0 = args_1[2];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('bindDocument',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 692 char 1',
@@ -736,7 +794,7 @@ export class Contract {
                                      'Bytes<32>',
                                      payload_hash_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(document_id_0).concat(_descriptor_0.toValue(payload_hash_0)),
@@ -746,14 +804,15 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._bindDocument_0(context,
-                                              partialProofData,
-                                              document_id_0,
-                                              payload_hash_0);
+        const result_0 = await this._bindDocument_0(context,
+                                                    partialProofData,
+                                                    document_id_0,
+                                                    payload_hash_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      anchorContentRoot: (...args_1) => {
+      anchorContentRoot: async (...args_1) => {
         if (args_1.length !== 4) {
           throw new __compactRuntime.CompactError(`anchorContentRoot: expected 4 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -761,7 +820,7 @@ export class Contract {
         const payload_hash_0 = args_1[1];
         const content_root_0 = args_1[2];
         const schema_id_0 = args_1[3];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('anchorContentRoot',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 734 char 1',
@@ -789,7 +848,7 @@ export class Contract {
                                      'Bytes<32>',
                                      schema_id_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(payload_hash_0).concat(_descriptor_0.toValue(content_root_0).concat(_descriptor_0.toValue(schema_id_0))),
@@ -799,15 +858,16 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._anchorContentRoot_0(context,
-                                                   partialProofData,
-                                                   payload_hash_0,
-                                                   content_root_0,
-                                                   schema_id_0);
+        const result_0 = await this._anchorContentRoot_0(context,
+                                                         partialProofData,
+                                                         payload_hash_0,
+                                                         content_root_0,
+                                                         schema_id_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      proveFieldPredicate: (...args_1) => {
+      proveFieldPredicate: async (...args_1) => {
         if (args_1.length !== 6) {
           throw new __compactRuntime.CompactError(`proveFieldPredicate: expected 6 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -817,7 +877,7 @@ export class Contract {
         const threshold_0 = args_1[3];
         const op_0 = args_1[4];
         const valid_until_0 = args_1[5];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('proveFieldPredicate',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 770 char 1',
@@ -859,7 +919,7 @@ export class Contract {
                                      'Uint<0..18446744073709551616>',
                                      valid_until_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(record_key_0).concat(_descriptor_0.toValue(field_key_0).concat(_descriptor_1.toValue(threshold_0).concat(_descriptor_4.toValue(op_0).concat(_descriptor_1.toValue(valid_until_0))))),
@@ -869,17 +929,18 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._proveFieldPredicate_0(context,
-                                                     partialProofData,
-                                                     record_key_0,
-                                                     field_key_0,
-                                                     threshold_0,
-                                                     op_0,
-                                                     valid_until_0);
+        const result_0 = await this._proveFieldPredicate_0(context,
+                                                           partialProofData,
+                                                           record_key_0,
+                                                           field_key_0,
+                                                           threshold_0,
+                                                           op_0,
+                                                           valid_until_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      proveFieldEquality: (...args_1) => {
+      proveFieldEquality: async (...args_1) => {
         if (args_1.length !== 5) {
           throw new __compactRuntime.CompactError(`proveFieldEquality: expected 5 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -888,7 +949,7 @@ export class Contract {
         const field_key_0 = args_1[2];
         const expected_digest_0 = args_1[3];
         const valid_until_0 = args_1[4];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('proveFieldEquality',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 807 char 1',
@@ -923,7 +984,7 @@ export class Contract {
                                      'Uint<0..18446744073709551616>',
                                      valid_until_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(record_key_0).concat(_descriptor_0.toValue(field_key_0).concat(_descriptor_0.toValue(expected_digest_0).concat(_descriptor_1.toValue(valid_until_0)))),
@@ -933,16 +994,17 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._proveFieldEquality_0(context,
-                                                    partialProofData,
-                                                    record_key_0,
-                                                    field_key_0,
-                                                    expected_digest_0,
-                                                    valid_until_0);
+        const result_0 = await this._proveFieldEquality_0(context,
+                                                          partialProofData,
+                                                          record_key_0,
+                                                          field_key_0,
+                                                          expected_digest_0,
+                                                          valid_until_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      proveFieldMembership: (...args_1) => {
+      proveFieldMembership: async (...args_1) => {
         if (args_1.length !== 5) {
           throw new __compactRuntime.CompactError(`proveFieldMembership: expected 5 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -951,7 +1013,7 @@ export class Contract {
         const field_key_0 = args_1[2];
         const set_root_0 = args_1[3];
         const valid_until_0 = args_1[4];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('proveFieldMembership',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 833 char 1',
@@ -986,7 +1048,7 @@ export class Contract {
                                      'Uint<0..18446744073709551616>',
                                      valid_until_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(record_key_0).concat(_descriptor_0.toValue(field_key_0).concat(_descriptor_0.toValue(set_root_0).concat(_descriptor_1.toValue(valid_until_0)))),
@@ -996,16 +1058,17 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._proveFieldMembership_0(context,
-                                                      partialProofData,
-                                                      record_key_0,
-                                                      field_key_0,
-                                                      set_root_0,
-                                                      valid_until_0);
+        const result_0 = await this._proveFieldMembership_0(context,
+                                                            partialProofData,
+                                                            record_key_0,
+                                                            field_key_0,
+                                                            set_root_0,
+                                                            valid_until_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       },
-      proveDocumentComparison: (...args_1) => {
+      proveDocumentComparison: async (...args_1) => {
         if (args_1.length !== 7) {
           throw new __compactRuntime.CompactError(`proveDocumentComparison: expected 7 arguments (as invoked from Typescript), received ${args_1.length}`);
         }
@@ -1016,7 +1079,7 @@ export class Contract {
         const allowed_mask_0 = args_1[4];
         const k_0 = args_1[5];
         const valid_until_0 = args_1[6];
-        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.currentQueryContext != undefined)) {
+        if (!(typeof(contextOrig_0) === 'object' && contextOrig_0.callContext.currentQueryContext != undefined)) {
           __compactRuntime.typeError('proveDocumentComparison',
                                      'argument 1 (as invoked from Typescript)',
                                      'attestation-vault-32.compact line 875 char 1',
@@ -1065,7 +1128,7 @@ export class Contract {
                                      'Uint<0..18446744073709551616>',
                                      valid_until_0)
         }
-        const context = { ...contextOrig_0, gasCost: __compactRuntime.emptyRunningCost() };
+        const context = __compactRuntime.copyCircuitContext(contextOrig_0);
         const partialProofData = {
           input: {
             value: _descriptor_0.toValue(record_key_a_0).concat(_descriptor_0.toValue(record_key_b_0).concat(_descriptor_4.toValue(mode_0).concat(_descriptor_5.toValue(allowed_mask_0).concat(_descriptor_4.toValue(k_0).concat(_descriptor_1.toValue(valid_until_0)))))),
@@ -1075,16 +1138,17 @@ export class Contract {
           publicTranscript: [],
           privateTranscriptOutputs: []
         };
-        const result_0 = this._proveDocumentComparison_0(context,
-                                                         partialProofData,
-                                                         record_key_a_0,
-                                                         record_key_b_0,
-                                                         mode_0,
-                                                         allowed_mask_0,
-                                                         k_0,
-                                                         valid_until_0);
+        const result_0 = await this._proveDocumentComparison_0(context,
+                                                               partialProofData,
+                                                               record_key_a_0,
+                                                               record_key_b_0,
+                                                               mode_0,
+                                                               allowed_mask_0,
+                                                               k_0,
+                                                               valid_until_0);
         partialProofData.output = { value: [], alignment: [] };
-        return { result: result_0, context: context, proofData: partialProofData, gasCost: context.gasCost };
+        __compactRuntime.finalizeCallProofData(context, partialProofData);
+        return { result: result_0, context: context, gasCost: context.callContext.currentGasCost };
       }
     };
     this.impureCircuits = {
@@ -1114,7 +1178,7 @@ export class Contract {
       proveDocumentComparison: this.circuits.proveDocumentComparison
     };
   }
-  initialState(...args_0) {
+  async initialState(...args_0) {
     if (args_0.length !== 3) {
       throw new __compactRuntime.CompactError(`Contract state constructor: expected 3 arguments (as invoked from Typescript), received ${args_0.length}`);
     }
@@ -1169,7 +1233,7 @@ export class Contract {
     state_0.setOperation('proveFieldEquality', new __compactRuntime.ContractOperation());
     state_0.setOperation('proveFieldMembership', new __compactRuntime.ContractOperation());
     state_0.setOperation('proveDocumentComparison', new __compactRuntime.ContractOperation());
-    const context = __compactRuntime.createCircuitContext(__compactRuntime.dummyContractAddress(), constructorContext_0.initialZswapLocalState.coinPublicKey, state_0.data, constructorContext_0.initialPrivateState);
+    const context = __compactRuntime.createCircuitContext({circuitId: 'constructor', contractAddress: __compactRuntime.dummyContractAddress(), coinPublicKeyOrZswapState: constructorContext_0.initialZswapLocalState.coinPublicKey, contractState: state_0.data, privateState: constructorContext_0.initialPrivateState});
     const partialProofData = {
       input: { value: [], alignment: [] },
       output: undefined,
@@ -1282,11 +1346,11 @@ export class Contract {
                                                  value: __compactRuntime.StateValue.newCell({ value: _descriptor_0.toValue(initial_recovery_0),
                                                                                               alignment: _descriptor_0.alignment() }).encode() } },
                                        { ins: { cached: false, n: 1 } }]);
-    state_0.data = new __compactRuntime.ChargedState(context.currentQueryContext.state.state);
+    state_0.data = new __compactRuntime.ChargedState(context.callContext.currentQueryContext.state.state);
     return {
       currentContractState: state_0,
-      currentPrivateState: context.currentPrivateState,
-      currentZswapLocalState: context.currentZswapLocalState
+      currentPrivateState: context.callContext.currentPrivateState,
+      currentZswapLocalState: context.callContext.currentZswapLocalState
     }
   }
   _transientHash_0(value_0) {
@@ -1350,9 +1414,9 @@ export class Contract {
     return result_0;
   }
   _local_secret_key_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.local_secret_key(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(result_0.buffer instanceof ArrayBuffer && result_0.BYTES_PER_ELEMENT === 1 && result_0.length === 32)) {
       __compactRuntime.typeError('local_secret_key',
                                  'return value',
@@ -1367,9 +1431,9 @@ export class Contract {
     return result_0;
   }
   _field_value_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.field_value(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(typeof(result_0) === 'bigint' && result_0 >= 0n && result_0 <= 18446744073709551615n)) {
       __compactRuntime.typeError('field_value',
                                  'return value',
@@ -1384,9 +1448,9 @@ export class Contract {
     return result_0;
   }
   _field_salt_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.field_salt(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(result_0.buffer instanceof ArrayBuffer && result_0.BYTES_PER_ELEMENT === 1 && result_0.length === 32)) {
       __compactRuntime.typeError('field_salt',
                                  'return value',
@@ -1401,9 +1465,9 @@ export class Contract {
     return result_0;
   }
   _merkle_siblings_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.merkle_siblings(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 5 && result_0.every((t) => t.buffer instanceof ArrayBuffer && t.BYTES_PER_ELEMENT === 1 && t.length === 32))) {
       __compactRuntime.typeError('merkle_siblings',
                                  'return value',
@@ -1418,9 +1482,9 @@ export class Contract {
     return result_0;
   }
   _merkle_dirs_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.merkle_dirs(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 5 && result_0.every((t) => typeof(t) === 'boolean'))) {
       __compactRuntime.typeError('merkle_dirs',
                                  'return value',
@@ -1435,9 +1499,9 @@ export class Contract {
     return result_0;
   }
   _field_digest_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.field_digest(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(result_0.buffer instanceof ArrayBuffer && result_0.BYTES_PER_ELEMENT === 1 && result_0.length === 32)) {
       __compactRuntime.typeError('field_digest',
                                  'return value',
@@ -1452,9 +1516,9 @@ export class Contract {
     return result_0;
   }
   _set_siblings_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.set_siblings(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 6 && result_0.every((t) => t.buffer instanceof ArrayBuffer && t.BYTES_PER_ELEMENT === 1 && t.length === 32))) {
       __compactRuntime.typeError('set_siblings',
                                  'return value',
@@ -1469,9 +1533,9 @@ export class Contract {
     return result_0;
   }
   _set_dirs_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.set_dirs(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 6 && result_0.every((t) => typeof(t) === 'boolean'))) {
       __compactRuntime.typeError('set_dirs',
                                  'return value',
@@ -1486,9 +1550,9 @@ export class Contract {
     return result_0;
   }
   _doc_schema_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.doc_schema(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 32 && result_0.every((t) => typeof(t) === 'object' && t.field_key.buffer instanceof ArrayBuffer && t.field_key.BYTES_PER_ELEMENT === 1 && t.field_key.length === 32 && typeof(t.kind) === 'bigint' && t.kind >= 0n && t.kind <= 255n && typeof(t.scale) === 'bigint' && t.scale >= 0n && t.scale <= 18446744073709551615n))) {
       __compactRuntime.typeError('doc_schema',
                                  'return value',
@@ -1503,9 +1567,9 @@ export class Contract {
     return result_0;
   }
   _doc_salt_a_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.doc_salt_a(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(result_0.buffer instanceof ArrayBuffer && result_0.BYTES_PER_ELEMENT === 1 && result_0.length === 32)) {
       __compactRuntime.typeError('doc_salt_a',
                                  'return value',
@@ -1520,9 +1584,9 @@ export class Contract {
     return result_0;
   }
   _doc_salt_b_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.doc_salt_b(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(result_0.buffer instanceof ArrayBuffer && result_0.BYTES_PER_ELEMENT === 1 && result_0.length === 32)) {
       __compactRuntime.typeError('doc_salt_b',
                                  'return value',
@@ -1537,9 +1601,9 @@ export class Contract {
     return result_0;
   }
   _doc_slots_a_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.doc_slots_a(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 32 && result_0.every((t) => typeof(t) === 'object' && typeof(t.present) === 'boolean' && typeof(t.uint_value) === 'bigint' && t.uint_value >= 0n && t.uint_value <= 18446744073709551615n && t.value_digest.buffer instanceof ArrayBuffer && t.value_digest.BYTES_PER_ELEMENT === 1 && t.value_digest.length === 32))) {
       __compactRuntime.typeError('doc_slots_a',
                                  'return value',
@@ -1554,9 +1618,9 @@ export class Contract {
     return result_0;
   }
   _doc_slots_b_0(context, partialProofData) {
-    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.currentQueryContext.state), context.currentPrivateState, context.currentQueryContext.address);
+    const witnessContext_0 = __compactRuntime.createWitnessContext(ledger(context.callContext.currentQueryContext.state), context.callContext.currentPrivateState, context.callContext.currentQueryContext.address);
     const [nextPrivateState_0, result_0] = this.witnesses.doc_slots_b(witnessContext_0);
-    context.currentPrivateState = nextPrivateState_0;
+    context.callContext.currentPrivateState = nextPrivateState_0;
     if (!(Array.isArray(result_0) && result_0.length === 32 && result_0.every((t) => typeof(t) === 'object' && typeof(t.present) === 'boolean' && typeof(t.uint_value) === 'bigint' && t.uint_value >= 0n && t.uint_value <= 18446744073709551615n && t.value_digest.buffer instanceof ArrayBuffer && t.value_digest.BYTES_PER_ELEMENT === 1 && t.value_digest.length === 32))) {
       __compactRuntime.typeError('doc_slots_b',
                                  'return value',
@@ -1571,7 +1635,7 @@ export class Contract {
     return result_0;
   }
   _maxClaimLifetime_0() { return 157680000n; }
-  _caller_id_0(context, partialProofData) {
+  async _caller_id_0(context, partialProofData) {
     return this._persistentHash_1(this._local_secret_key_0(context,
                                                            partialProofData));
   }
@@ -1691,10 +1755,10 @@ export class Contract {
                             this._nodeHash_0(c2_0, c3_0));
   }
   _slotLeaf_0(d_0, o_0, salt_0) {
-    if (this._equal_0(d_0.kind, 0n) && o_0.present) {
+    if (d_0.kind === 0n && o_0.present) {
       return this._leafHash_0(d_0.field_key, o_0.uint_value, salt_0);
     } else {
-      if (this._equal_1(d_0.kind, 1n) && o_0.present) {
+      if (d_0.kind === 1n && o_0.present) {
         return this._bytesLeafHash_0(d_0.field_key, o_0.value_digest, salt_0);
       } else {
         return this._absentLeafHash_0(d_0.field_key, salt_0);
@@ -1702,43 +1766,41 @@ export class Contract {
     }
   }
   _slotDiff_0(d_0, a_0, b_0) {
-    return this._equal_2(d_0.kind, 2n) ?
+    return d_0.kind === 2n ?
            0n :
            !a_0.present && !b_0.present ?
            0n :
            a_0.present && !b_0.present || !a_0.present && b_0.present ?
            1n :
-           this._equal_3(d_0.kind, 0n) ?
-           this._equal_4(a_0.uint_value, b_0.uint_value) ? 0n : 1n :
-           this._equal_5(a_0.value_digest, b_0.value_digest) ? 0n : 1n;
+           d_0.kind === 0n ?
+           a_0.uint_value === b_0.uint_value ? 0n : 1n :
+           this._equal_0(a_0.value_digest, b_0.value_digest) ? 0n : 1n;
   }
   _assertCanonicalSlot_0(d_0, a_0, b_0) {
     let t_0;
     __compactRuntime.assert((t_0 = d_0.kind, t_0 <= 2n),
                             'schema kind out of range');
-    if (this._equal_6(d_0.kind, 2n)) {
-      __compactRuntime.assert(this._equal_7(d_0.field_key,
+    if (d_0.kind === 2n) {
+      __compactRuntime.assert(this._equal_1(d_0.field_key,
                                             this._emptyLeafKey_0()),
                               'padding slot key must be canonical');
       __compactRuntime.assert(!a_0.present && !b_0.present,
                               'padding slot must be absent');
     } else {
-      __compactRuntime.assert(!this._equal_8(d_0.field_key,
+      __compactRuntime.assert(!this._equal_2(d_0.field_key,
                                              this._emptyLeafKey_0()),
                               'padding key in a real slot');
     }
-    if (!this._equal_9(d_0.kind, 0n)) {
-      __compactRuntime.assert(this._equal_10(d_0.scale, 0n),
+    if (!(d_0.kind === 0n)) {
+      __compactRuntime.assert(d_0.scale === 0n,
                               'schema scale must be 0 for non-uint slots');
     }
     return [];
   }
-  _constrainsSlot_0(allowed_0, d_0) {
-    return !allowed_0 && !this._equal_11(d_0.kind, 2n);
-  }
+  _constrainsSlot_0(allowed_0, d_0) { return !allowed_0 && !(d_0.kind === 2n); }
   _assertUnchanged_0(allowed_0, d_0, a_0, b_0) {
     if (!allowed_0) {
-      __compactRuntime.assert(this._equal_12(this._slotDiff_0(d_0, a_0, b_0), 0n),
+      __compactRuntime.assert(this._slotDiff_0(d_0, a_0, b_0) === 0n,
                               'slot changed outside allowed mask');
     }
     return [];
@@ -1946,12 +2008,14 @@ export class Contract {
       return this._nodeHash_0(sibling_0, node_0);
     }
   }
-  _ownRecord_0(context, partialProofData, payload_hash_0) {
-    return this._recordKey_0(this._caller_id_0(context, partialProofData),
+  async _ownRecord_0(context, partialProofData, payload_hash_0) {
+    return this._recordKey_0(await this._caller_id_0(context, partialProofData),
                              payload_hash_0);
   }
-  _ownAttestedRecord_0(context, partialProofData, payload_hash_0) {
-    const key_0 = this._ownRecord_0(context, partialProofData, payload_hash_0);
+  async _ownAttestedRecord_0(context, partialProofData, payload_hash_0) {
+    const key_0 = await this._ownRecord_0(context,
+                                          partialProofData,
+                                          payload_hash_0);
     __compactRuntime.assert(_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                       partialProofData,
                                                                                       [
@@ -1971,7 +2035,7 @@ export class Contract {
                             'no attestation');
     return key_0;
   }
-  _anchorOf_0(context, partialProofData, record_key_0) {
+  async _anchorOf_0(context, partialProofData, record_key_0) {
     __compactRuntime.assert(_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                       partialProofData,
                                                                                       [
@@ -2008,7 +2072,7 @@ export class Contract {
                                                                       { popeq: { cached: false,
                                                                                  result: undefined } }]).value);
   }
-  _unbindDocument_0(context, partialProofData, record_key_0) {
+  async _unbindDocument_0(context, partialProofData, record_key_0) {
     const rec_0 = _descriptor_6.fromValue(__compactRuntime.queryLedgerState(context,
                                                                             partialProofData,
                                                                             [
@@ -2027,8 +2091,8 @@ export class Contract {
                                                                                                         alignment: _descriptor_0.alignment() } }] } },
                                                                              { popeq: { cached: false,
                                                                                         result: undefined } }]).value);
-    if (!this._equal_13(rec_0.document_id,
-                        new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])))
+    if (!this._equal_3(rec_0.document_id,
+                       new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])))
     {
       let tmp_0;
       if (tmp_0 = rec_0.document_id,
@@ -2050,26 +2114,26 @@ export class Contract {
                                                                                 result: undefined } }]).value))
       {
         let tmp_1;
-        if (this._equal_14((tmp_1 = rec_0.document_id,
-                            _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
-                                                                                      partialProofData,
-                                                                                      [
-                                                                                       { dup: { n: 0 } },
-                                                                                       { idx: { cached: false,
-                                                                                                pushPath: false,
-                                                                                                path: [
-                                                                                                       { tag: 'value',
-                                                                                                         value: { value: _descriptor_4.toValue(3n),
-                                                                                                                  alignment: _descriptor_4.alignment() } }] } },
-                                                                                       { idx: { cached: false,
-                                                                                                pushPath: false,
-                                                                                                path: [
-                                                                                                       { tag: 'value',
-                                                                                                         value: { value: _descriptor_0.toValue(tmp_1),
-                                                                                                                  alignment: _descriptor_0.alignment() } }] } },
-                                                                                       { popeq: { cached: false,
-                                                                                                  result: undefined } }]).value)),
-                           record_key_0))
+        if (this._equal_4((tmp_1 = rec_0.document_id,
+                           _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                                     partialProofData,
+                                                                                     [
+                                                                                      { dup: { n: 0 } },
+                                                                                      { idx: { cached: false,
+                                                                                               pushPath: false,
+                                                                                               path: [
+                                                                                                      { tag: 'value',
+                                                                                                        value: { value: _descriptor_4.toValue(3n),
+                                                                                                                 alignment: _descriptor_4.alignment() } }] } },
+                                                                                      { idx: { cached: false,
+                                                                                               pushPath: false,
+                                                                                               path: [
+                                                                                                      { tag: 'value',
+                                                                                                        value: { value: _descriptor_0.toValue(tmp_1),
+                                                                                                                 alignment: _descriptor_0.alignment() } }] } },
+                                                                                      { popeq: { cached: false,
+                                                                                                 result: undefined } }]).value)),
+                          record_key_0))
         {
           const tmp_2 = rec_0.document_id;
           __compactRuntime.queryLedgerState(context,
@@ -2091,8 +2155,8 @@ export class Contract {
     }
     return [];
   }
-  _clearRecord_0(context, partialProofData, record_key_0) {
-    this._unbindDocument_0(context, partialProofData, record_key_0);
+  async _clearRecord_0(context, partialProofData, record_key_0) {
+    await this._unbindDocument_0(context, partialProofData, record_key_0);
     if (_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                   partialProofData,
                                                                   [
@@ -2159,7 +2223,7 @@ export class Contract {
     }
     return [];
   }
-  _assertLifetime_0(context, partialProofData, valid_until_0, cap_0) {
+  async _assertLifetime_0(context, partialProofData, valid_until_0, cap_0) {
     __compactRuntime.assert(_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                       partialProofData,
                                                                                       [
@@ -2204,7 +2268,7 @@ export class Contract {
     }
     return [];
   }
-  _recordClaim_0(context, partialProofData, key_0, valid_until_0) {
+  async _recordClaim_0(context, partialProofData, key_0, valid_until_0) {
     if (_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                   partialProofData,
                                                                   [
@@ -2263,8 +2327,10 @@ export class Contract {
                                        { ins: { cached: true, n: 1 } }]);
     return [];
   }
-  _attest_0(context, partialProofData, payload_hash_0, metadata_hash_0) {
-    const key_0 = this._ownRecord_0(context, partialProofData, payload_hash_0);
+  async _attest_0(context, partialProofData, payload_hash_0, metadata_hash_0) {
+    const key_0 = await this._ownRecord_0(context,
+                                          partialProofData,
+                                          payload_hash_0);
     __compactRuntime.assert(!_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                        partialProofData,
                                                                                        [
@@ -2284,7 +2350,7 @@ export class Contract {
                             'already attested');
     const tmp_0 = { payload_hash: payload_hash_0,
                     metadata_hash: metadata_hash_0,
-                    owner: this._caller_id_0(context, partialProofData),
+                    owner: await this._caller_id_0(context, partialProofData),
                     document_id:
                       new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) };
     __compactRuntime.queryLedgerState(context,
@@ -2306,14 +2372,14 @@ export class Contract {
                                        { ins: { cached: true, n: 1 } }]);
     return [];
   }
-  _retract_0(context, partialProofData, mode_0, key_0) {
+  async _retract_0(context, partialProofData, mode_0, key_0) {
     const m_0 = mode_0;
     __compactRuntime.assert(m_0 <= 1n, 'mode out of range');
-    if (this._equal_15(m_0, 0n)) {
-      const record_0 = this._ownAttestedRecord_0(context,
-                                                 partialProofData,
-                                                 key_0);
-      this._clearRecord_0(context, partialProofData, record_0);
+    if (m_0 === 0n) {
+      const record_0 = await this._ownAttestedRecord_0(context,
+                                                       partialProofData,
+                                                       key_0);
+      await this._clearRecord_0(context, partialProofData, record_0);
       __compactRuntime.queryLedgerState(context,
                                         partialProofData,
                                         [
@@ -2400,15 +2466,15 @@ export class Contract {
       return [];
     }
   }
-  _grantDisclosure_0(context,
-                     partialProofData,
-                     payload_hash_0,
-                     grantee_0,
-                     level_0)
+  async _grantDisclosure_0(context,
+                           partialProofData,
+                           payload_hash_0,
+                           grantee_0,
+                           level_0)
   {
-    const key_0 = this._ownAttestedRecord_0(context,
-                                            partialProofData,
-                                            payload_hash_0);
+    const key_0 = await this._ownAttestedRecord_0(context,
+                                                  partialProofData,
+                                                  payload_hash_0);
     __compactRuntime.assert(level_0 <= 2n, 'level out of range');
     if (!_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                    partialProofData,
@@ -2468,10 +2534,11 @@ export class Contract {
                                        { ins: { cached: true, n: 2 } }]);
     return [];
   }
-  _revokeDisclosure_0(context, partialProofData, payload_hash_0, grantee_0) {
-    const key_0 = this._ownAttestedRecord_0(context,
-                                            partialProofData,
-                                            payload_hash_0);
+  async _revokeDisclosure_0(context, partialProofData, payload_hash_0, grantee_0)
+  {
+    const key_0 = await this._ownAttestedRecord_0(context,
+                                                  partialProofData,
+                                                  payload_hash_0);
     __compactRuntime.assert(_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                       partialProofData,
                                                                                       [
@@ -2508,7 +2575,10 @@ export class Contract {
                                        { ins: { cached: true, n: 2 } }]);
     return [];
   }
-  _releaseForeignBinding_0(context, partialProofData, document_id_0, owner_id_0)
+  async _releaseForeignBinding_0(context,
+                                 partialProofData,
+                                 document_id_0,
+                                 owner_id_0)
   {
     if (_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                   partialProofData,
@@ -2563,7 +2633,7 @@ export class Contract {
                                                                                                           alignment: _descriptor_0.alignment() } }] } },
                                                                                { popeq: { cached: false,
                                                                                           result: undefined } }]).value);
-      if (!this._equal_16(old_0.owner, owner_id_0)) {
+      if (!this._equal_5(old_0.owner, owner_id_0)) {
         const tmp_0 = { payload_hash: old_0.payload_hash,
                         metadata_hash: old_0.metadata_hash,
                         owner: old_0.owner,
@@ -2604,36 +2674,36 @@ export class Contract {
     }
     return [];
   }
-  _registerDocument_0(context,
-                      partialProofData,
-                      mode_0,
-                      document_id_0,
-                      owner_id_0)
+  async _registerDocument_0(context,
+                            partialProofData,
+                            mode_0,
+                            document_id_0,
+                            owner_id_0)
   {
     const m_0 = mode_0;
     __compactRuntime.assert(m_0 <= 4n, 'mode out of range');
     const zero_0 = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     if (m_0 >= 3n) {
-      __compactRuntime.assert(this._equal_17(this._caller_id_0(context,
-                                                               partialProofData),
-                                             _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
-                                                                                                       partialProofData,
-                                                                                                       [
-                                                                                                        { dup: { n: 0 } },
-                                                                                                        { idx: { cached: false,
-                                                                                                                 pushPath: false,
-                                                                                                                 path: [
-                                                                                                                        { tag: 'value',
-                                                                                                                          value: { value: _descriptor_4.toValue(6n),
-                                                                                                                                   alignment: _descriptor_4.alignment() } }] } },
-                                                                                                        { popeq: { cached: false,
-                                                                                                                   result: undefined } }]).value)),
+      __compactRuntime.assert(this._equal_6(await this._caller_id_0(context,
+                                                                    partialProofData),
+                                            _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                                                      partialProofData,
+                                                                                                      [
+                                                                                                       { dup: { n: 0 } },
+                                                                                                       { idx: { cached: false,
+                                                                                                                pushPath: false,
+                                                                                                                path: [
+                                                                                                                       { tag: 'value',
+                                                                                                                         value: { value: _descriptor_4.toValue(6n),
+                                                                                                                                  alignment: _descriptor_4.alignment() } }] } },
+                                                                                                       { popeq: { cached: false,
+                                                                                                                  result: undefined } }]).value)),
                               'not recovery');
-      __compactRuntime.assert(this._equal_18(document_id_0, zero_0),
+      __compactRuntime.assert(this._equal_7(document_id_0, zero_0),
                               'id must be the neutral dummy in recovery mode');
-      __compactRuntime.assert(!this._equal_19(owner_id_0, zero_0),
+      __compactRuntime.assert(!this._equal_8(owner_id_0, zero_0),
                               'identity must not be zero');
-      if (this._equal_20(m_0, 3n)) {
+      if (m_0 === 3n) {
         __compactRuntime.queryLedgerState(context,
                                           partialProofData,
                                           [
@@ -2658,26 +2728,26 @@ export class Contract {
       }
       return [];
     } else {
-      __compactRuntime.assert(this._equal_21(this._caller_id_0(context,
-                                                               partialProofData),
-                                             _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
-                                                                                                       partialProofData,
-                                                                                                       [
-                                                                                                        { dup: { n: 0 } },
-                                                                                                        { idx: { cached: false,
-                                                                                                                 pushPath: false,
-                                                                                                                 path: [
-                                                                                                                        { tag: 'value',
-                                                                                                                          value: { value: _descriptor_4.toValue(4n),
-                                                                                                                                   alignment: _descriptor_4.alignment() } }] } },
-                                                                                                        { popeq: { cached: false,
-                                                                                                                   result: undefined } }]).value)),
+      __compactRuntime.assert(this._equal_9(await this._caller_id_0(context,
+                                                                    partialProofData),
+                                            _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
+                                                                                                      partialProofData,
+                                                                                                      [
+                                                                                                       { dup: { n: 0 } },
+                                                                                                       { idx: { cached: false,
+                                                                                                                pushPath: false,
+                                                                                                                path: [
+                                                                                                                       { tag: 'value',
+                                                                                                                         value: { value: _descriptor_4.toValue(4n),
+                                                                                                                                  alignment: _descriptor_4.alignment() } }] } },
+                                                                                                       { popeq: { cached: false,
+                                                                                                                  result: undefined } }]).value)),
                               'not registrar');
-      if (this._equal_22(m_0, 0n)) {
-        this._releaseForeignBinding_0(context,
-                                      partialProofData,
-                                      document_id_0,
-                                      owner_id_0);
+      if (m_0 === 0n) {
+        await this._releaseForeignBinding_0(context,
+                                            partialProofData,
+                                            document_id_0,
+                                            owner_id_0);
         __compactRuntime.queryLedgerState(context,
                                           partialProofData,
                                           [
@@ -2697,8 +2767,8 @@ export class Contract {
                                            { ins: { cached: true, n: 1 } }]);
         return [];
       } else {
-        if (this._equal_23(m_0, 1n)) {
-          __compactRuntime.assert(this._equal_24(owner_id_0, zero_0),
+        if (m_0 === 1n) {
+          __compactRuntime.assert(this._equal_10(owner_id_0, zero_0),
                                   'owner must be the neutral dummy in unregister mode');
           __compactRuntime.assert(_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                             partialProofData,
@@ -2733,9 +2803,9 @@ export class Contract {
                                              { ins: { cached: true, n: 1 } }]);
           return [];
         } else {
-          __compactRuntime.assert(this._equal_25(document_id_0, zero_0),
+          __compactRuntime.assert(this._equal_11(document_id_0, zero_0),
                                   'id must be the neutral dummy in transfer mode');
-          __compactRuntime.assert(!this._equal_26(owner_id_0, zero_0),
+          __compactRuntime.assert(!this._equal_12(owner_id_0, zero_0),
                                   'registrar must not be zero');
           __compactRuntime.queryLedgerState(context,
                                             partialProofData,
@@ -2752,11 +2822,12 @@ export class Contract {
       }
     }
   }
-  _bindDocument_0(context, partialProofData, document_id_0, payload_hash_0) {
-    const key_0 = this._ownAttestedRecord_0(context,
-                                            partialProofData,
-                                            payload_hash_0);
-    __compactRuntime.assert(!this._equal_27(document_id_0,
+  async _bindDocument_0(context, partialProofData, document_id_0, payload_hash_0)
+  {
+    const key_0 = await this._ownAttestedRecord_0(context,
+                                                  partialProofData,
+                                                  payload_hash_0);
+    __compactRuntime.assert(!this._equal_13(document_id_0,
                                             new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])),
                             'document id must not be zero');
     if (_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
@@ -2776,7 +2847,7 @@ export class Contract {
                                                                    { popeq: { cached: true,
                                                                               result: undefined } }]).value))
     {
-      __compactRuntime.assert(this._equal_28(_descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
+      __compactRuntime.assert(this._equal_14(_descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                                        partialProofData,
                                                                                                        [
                                                                                                         { dup: { n: 0 } },
@@ -2794,8 +2865,8 @@ export class Contract {
                                                                                                                                    alignment: _descriptor_0.alignment() } }] } },
                                                                                                         { popeq: { cached: false,
                                                                                                                    result: undefined } }]).value),
-                                             this._caller_id_0(context,
-                                                               partialProofData)),
+                                             await this._caller_id_0(context,
+                                                                     partialProofData)),
                               'not document owner');
     } else {
       if (_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
@@ -2816,7 +2887,7 @@ export class Contract {
                                                                                 result: undefined } }]).value))
       {
         let tmp_0;
-        __compactRuntime.assert(this._equal_29((tmp_0 = _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
+        __compactRuntime.assert(this._equal_15((tmp_0 = _descriptor_0.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                                                   partialProofData,
                                                                                                                   [
                                                                                                                    { dup: { n: 0 } },
@@ -2852,8 +2923,8 @@ export class Contract {
                                                                                                                                       alignment: _descriptor_0.alignment() } }] } },
                                                                                                            { popeq: { cached: false,
                                                                                                                       result: undefined } }]).value)).owner,
-                                               this._caller_id_0(context,
-                                                                 partialProofData)),
+                                               await this._caller_id_0(context,
+                                                                       partialProofData)),
                                 'document bound by another attester');
       }
     }
@@ -2892,7 +2963,7 @@ export class Contract {
                                                                                                                alignment: _descriptor_0.alignment() } }] } },
                                                                                     { popeq: { cached: false,
                                                                                                result: undefined } }]).value);
-      if (!this._equal_30(previous_0, key_0)) {
+      if (!this._equal_16(previous_0, key_0)) {
         const old_0 = _descriptor_6.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                 partialProofData,
                                                                                 [
@@ -2935,7 +3006,7 @@ export class Contract {
                                            { ins: { cached: true, n: 1 } }]);
       }
     }
-    this._unbindDocument_0(context, partialProofData, key_0);
+    await this._unbindDocument_0(context, partialProofData, key_0);
     const rec_0 = _descriptor_6.fromValue(__compactRuntime.queryLedgerState(context,
                                                                             partialProofData,
                                                                             [
@@ -2994,15 +3065,15 @@ export class Contract {
                                        { ins: { cached: true, n: 1 } }]);
     return [];
   }
-  _anchorContentRoot_0(context,
-                       partialProofData,
-                       payload_hash_0,
-                       content_root_0,
-                       schema_id_0)
+  async _anchorContentRoot_0(context,
+                             partialProofData,
+                             payload_hash_0,
+                             content_root_0,
+                             schema_id_0)
   {
-    const key_0 = this._ownAttestedRecord_0(context,
-                                            partialProofData,
-                                            payload_hash_0);
+    const key_0 = await this._ownAttestedRecord_0(context,
+                                                  partialProofData,
+                                                  payload_hash_0);
     if (_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                   partialProofData,
                                                                   [
@@ -3038,9 +3109,9 @@ export class Contract {
                                                                                                              alignment: _descriptor_0.alignment() } }] } },
                                                                                   { popeq: { cached: false,
                                                                                              result: undefined } }]).value);
-      __compactRuntime.assert(this._equal_31(anchor_0.root, content_root_0),
+      __compactRuntime.assert(this._equal_17(anchor_0.root, content_root_0),
                               'content root already anchored');
-      __compactRuntime.assert(this._equal_32(anchor_0.schema, schema_id_0),
+      __compactRuntime.assert(this._equal_18(anchor_0.schema, schema_id_0),
                               'schema already anchored');
     } else {
       const tmp_0 = { root: content_root_0, schema: schema_id_0 };
@@ -3064,7 +3135,7 @@ export class Contract {
     }
     return [];
   }
-  _fieldRoot_0(context, partialProofData, leaf_0) {
+  async _fieldRoot_0(context, partialProofData, leaf_0) {
     const sibs_0 = this._merkle_siblings_0(context, partialProofData);
     const dirs_0 = this._merkle_dirs_0(context, partialProofData);
     const n1_0 = this._merkleStep_0(leaf_0, sibs_0[0], dirs_0[0]);
@@ -3073,30 +3144,32 @@ export class Contract {
     const n4_0 = this._merkleStep_0(n3_0, sibs_0[3], dirs_0[3]);
     return this._merkleStep_0(n4_0, sibs_0[4], dirs_0[4]);
   }
-  _proveFieldPredicate_0(context,
-                         partialProofData,
-                         record_key_0,
-                         field_key_0,
-                         threshold_0,
-                         op_0,
-                         valid_until_0)
+  async _proveFieldPredicate_0(context,
+                               partialProofData,
+                               record_key_0,
+                               field_key_0,
+                               threshold_0,
+                               op_0,
+                               valid_until_0)
   {
-    const anchor_0 = this._anchorOf_0(context, partialProofData, record_key_0);
+    const anchor_0 = await this._anchorOf_0(context,
+                                            partialProofData,
+                                            record_key_0);
     __compactRuntime.assert(op_0 <= 1n, 'op out of range');
-    this._assertLifetime_0(context,
-                           partialProofData,
-                           valid_until_0,
-                           this._maxClaimLifetime_0());
+    await this._assertLifetime_0(context,
+                                 partialProofData,
+                                 valid_until_0,
+                                 this._maxClaimLifetime_0());
     const v_0 = this._field_value_0(context, partialProofData);
-    __compactRuntime.assert(this._equal_33(this._fieldRoot_0(context,
-                                                             partialProofData,
-                                                             this._leafHash_0(field_key_0,
-                                                                              v_0,
-                                                                              this._field_salt_0(context,
-                                                                                                 partialProofData))),
+    __compactRuntime.assert(this._equal_19(await this._fieldRoot_0(context,
+                                                                   partialProofData,
+                                                                   this._leafHash_0(field_key_0,
+                                                                                    v_0,
+                                                                                    this._field_salt_0(context,
+                                                                                                       partialProofData))),
                                            anchor_0.root),
                             'field not in document');
-    if (this._equal_34(op_0, 0n)) {
+    if (op_0 === 0n) {
       __compactRuntime.assert(v_0 <= threshold_0, 'predicate false');
     } else {
       __compactRuntime.assert(v_0 >= threshold_0, 'predicate false');
@@ -3108,27 +3181,32 @@ export class Contract {
                                                 field_key: field_key_0,
                                                 threshold: threshold_0,
                                                 op: op_0 });
-    this._recordClaim_0(context, partialProofData, claimKey_0, valid_until_0);
+    await this._recordClaim_0(context,
+                              partialProofData,
+                              claimKey_0,
+                              valid_until_0);
     return [];
   }
-  _proveFieldEquality_0(context,
-                        partialProofData,
-                        record_key_0,
-                        field_key_0,
-                        expected_digest_0,
-                        valid_until_0)
+  async _proveFieldEquality_0(context,
+                              partialProofData,
+                              record_key_0,
+                              field_key_0,
+                              expected_digest_0,
+                              valid_until_0)
   {
-    const anchor_0 = this._anchorOf_0(context, partialProofData, record_key_0);
-    this._assertLifetime_0(context,
-                           partialProofData,
-                           valid_until_0,
-                           this._maxClaimLifetime_0());
-    __compactRuntime.assert(this._equal_35(this._fieldRoot_0(context,
-                                                             partialProofData,
-                                                             this._bytesLeafHash_0(field_key_0,
-                                                                                   expected_digest_0,
-                                                                                   this._field_salt_0(context,
-                                                                                                      partialProofData))),
+    const anchor_0 = await this._anchorOf_0(context,
+                                            partialProofData,
+                                            record_key_0);
+    await this._assertLifetime_0(context,
+                                 partialProofData,
+                                 valid_until_0,
+                                 this._maxClaimLifetime_0());
+    __compactRuntime.assert(this._equal_20(await this._fieldRoot_0(context,
+                                                                   partialProofData,
+                                                                   this._bytesLeafHash_0(field_key_0,
+                                                                                         expected_digest_0,
+                                                                                         this._field_salt_0(context,
+                                                                                                            partialProofData))),
                                            anchor_0.root),
                             'field not in document');
     const claimKey_0 = this._persistentHash_3({ tag: 17n,
@@ -3137,28 +3215,33 @@ export class Contract {
                                                 schema_id: anchor_0.schema,
                                                 field_key: field_key_0,
                                                 expected: expected_digest_0 });
-    this._recordClaim_0(context, partialProofData, claimKey_0, valid_until_0);
+    await this._recordClaim_0(context,
+                              partialProofData,
+                              claimKey_0,
+                              valid_until_0);
     return [];
   }
-  _proveFieldMembership_0(context,
-                          partialProofData,
-                          record_key_0,
-                          field_key_0,
-                          set_root_0,
-                          valid_until_0)
+  async _proveFieldMembership_0(context,
+                                partialProofData,
+                                record_key_0,
+                                field_key_0,
+                                set_root_0,
+                                valid_until_0)
   {
-    const anchor_0 = this._anchorOf_0(context, partialProofData, record_key_0);
-    this._assertLifetime_0(context,
-                           partialProofData,
-                           valid_until_0,
-                           this._maxClaimLifetime_0());
+    const anchor_0 = await this._anchorOf_0(context,
+                                            partialProofData,
+                                            record_key_0);
+    await this._assertLifetime_0(context,
+                                 partialProofData,
+                                 valid_until_0,
+                                 this._maxClaimLifetime_0());
     const d_0 = this._field_digest_0(context, partialProofData);
-    __compactRuntime.assert(this._equal_36(this._fieldRoot_0(context,
-                                                             partialProofData,
-                                                             this._bytesLeafHash_0(field_key_0,
-                                                                                   d_0,
-                                                                                   this._field_salt_0(context,
-                                                                                                      partialProofData))),
+    __compactRuntime.assert(this._equal_21(await this._fieldRoot_0(context,
+                                                                   partialProofData,
+                                                                   this._bytesLeafHash_0(field_key_0,
+                                                                                         d_0,
+                                                                                         this._field_salt_0(context,
+                                                                                                            partialProofData))),
                                            anchor_0.root),
                             'field not in document');
     const ssibs_0 = this._set_siblings_0(context, partialProofData);
@@ -3170,7 +3253,7 @@ export class Contract {
     const s4_0 = this._merkleStep_0(s3_0, ssibs_0[3], sdirs_0[3]);
     const s5_0 = this._merkleStep_0(s4_0, ssibs_0[4], sdirs_0[4]);
     const sroot_0 = this._merkleStep_0(s5_0, ssibs_0[5], sdirs_0[5]);
-    __compactRuntime.assert(this._equal_37(sroot_0, set_root_0),
+    __compactRuntime.assert(this._equal_22(sroot_0, set_root_0),
                             'value not in set');
     const claimKey_0 = this._persistentHash_4({ tag: 18n,
                                                 record_key: record_key_0,
@@ -3178,22 +3261,25 @@ export class Contract {
                                                 schema_id: anchor_0.schema,
                                                 field_key: field_key_0,
                                                 set_root: set_root_0 });
-    this._recordClaim_0(context, partialProofData, claimKey_0, valid_until_0);
+    await this._recordClaim_0(context,
+                              partialProofData,
+                              claimKey_0,
+                              valid_until_0);
     return [];
   }
-  _proveDocumentComparison_0(context,
-                             partialProofData,
-                             record_key_a_0,
-                             record_key_b_0,
-                             mode_0,
-                             allowed_mask_0,
-                             k_0,
-                             valid_until_0)
+  async _proveDocumentComparison_0(context,
+                                   partialProofData,
+                                   record_key_a_0,
+                                   record_key_b_0,
+                                   mode_0,
+                                   allowed_mask_0,
+                                   k_0,
+                                   valid_until_0)
   {
     const m_0 = mode_0;
     __compactRuntime.assert(m_0 <= 1n, 'mode out of range');
-    if (this._equal_38(m_0, 0n)) {
-      __compactRuntime.assert(this._equal_39(k_0, 1n),
+    if (m_0 === 0n) {
+      __compactRuntime.assert(k_0 === 1n,
                               'k must be the neutral dummy in integrity mode');
     } else {
       __compactRuntime.assert(!(allowed_mask_0[0] || allowed_mask_0[1]
@@ -3259,7 +3345,7 @@ export class Contract {
                                 allowed_mask_0[31]),
                               'mask must be the neutral dummy in diff mode');
     }
-    __compactRuntime.assert(!this._equal_40(record_key_a_0, record_key_b_0),
+    __compactRuntime.assert(!this._equal_23(record_key_a_0, record_key_b_0),
                             'records must differ');
     __compactRuntime.assert(_descriptor_3.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                       partialProofData,
@@ -3295,10 +3381,10 @@ export class Contract {
                                                                                        { popeq: { cached: true,
                                                                                                   result: undefined } }]).value),
                             'no content root B');
-    this._assertLifetime_0(context,
-                           partialProofData,
-                           valid_until_0,
-                           this._maxClaimLifetime_0());
+    await this._assertLifetime_0(context,
+                                 partialProofData,
+                                 valid_until_0,
+                                 this._maxClaimLifetime_0());
     const anchorA_0 = _descriptor_2.fromValue(__compactRuntime.queryLedgerState(context,
                                                                                 partialProofData,
                                                                                 [
@@ -3371,23 +3457,23 @@ export class Contract {
     this._assertCanonicalSlot_0(ds_0[30], oa_0[30], ob_0[30]);
     this._assertCanonicalSlot_0(ds_0[31], oa_0[31], ob_0[31]);
     const schemaRoot_0 = this._schemaRootOf_0(ds_0);
-    __compactRuntime.assert(this._equal_41(schemaRoot_0, anchorA_0.schema),
+    __compactRuntime.assert(this._equal_24(schemaRoot_0, anchorA_0.schema),
                             'doc A schema mismatch');
-    __compactRuntime.assert(this._equal_42(schemaRoot_0, anchorB_0.schema),
+    __compactRuntime.assert(this._equal_25(schemaRoot_0, anchorB_0.schema),
                             'doc B schema mismatch');
-    __compactRuntime.assert(this._equal_43(this._contentRootOf_0(ds_0,
+    __compactRuntime.assert(this._equal_26(this._contentRootOf_0(ds_0,
                                                                  oa_0,
                                                                  this._doc_salt_a_0(context,
                                                                                     partialProofData)),
                                            anchorA_0.root),
                             'doc A opening does not match anchored root');
-    __compactRuntime.assert(this._equal_44(this._contentRootOf_0(ds_0,
+    __compactRuntime.assert(this._equal_27(this._contentRootOf_0(ds_0,
                                                                  ob_0,
                                                                  this._doc_salt_b_0(context,
                                                                                     partialProofData)),
                                            anchorB_0.root),
                             'doc B opening does not match anchored root');
-    if (this._equal_45(m_0, 0n)) {
+    if (m_0 === 0n) {
       __compactRuntime.assert(this._constrainsSlot_0(allowed_mask_0[0], ds_0[0])
                               ||
                               this._constrainsSlot_0(allowed_mask_0[1], ds_0[1])
@@ -3518,10 +3604,10 @@ export class Contract {
                                                       schema_id: schemaRoot_0,
                                                       allowed_mask:
                                                         allowed_mask_0 });
-      this._recordClaim_0(context,
-                          partialProofData,
-                          integrityKey_0,
-                          valid_until_0);
+      await this._recordClaim_0(context,
+                                partialProofData,
+                                integrityKey_0,
+                                valid_until_0);
       return [];
     } else {
       __compactRuntime.assert(k_0 >= 1n && k_0 <= 32n, 'k out of range');
@@ -3596,28 +3682,31 @@ export class Contract {
                                                  content_root_b: anchorB_0.root,
                                                  schema_id: schemaRoot_0,
                                                  k: k_0 });
-      this._recordClaim_0(context, partialProofData, diffKey_0, valid_until_0);
+      await this._recordClaim_0(context,
+                                partialProofData,
+                                diffKey_0,
+                                valid_until_0);
       return [];
     }
   }
   _equal_0(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_1(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_2(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_3(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_4(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_5(x0, y0) {
@@ -3625,7 +3714,7 @@ export class Contract {
     return true;
   }
   _equal_6(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_7(x0, y0) {
@@ -3637,19 +3726,19 @@ export class Contract {
     return true;
   }
   _equal_9(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_10(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_11(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_12(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_13(x0, y0) {
@@ -3661,7 +3750,7 @@ export class Contract {
     return true;
   }
   _equal_15(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_16(x0, y0) {
@@ -3681,7 +3770,7 @@ export class Contract {
     return true;
   }
   _equal_20(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_21(x0, y0) {
@@ -3689,11 +3778,11 @@ export class Contract {
     return true;
   }
   _equal_22(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_23(x0, y0) {
-    if (x0 !== y0) { return false; }
+    if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
   _equal_24(x0, y0) {
@@ -3712,84 +3801,12 @@ export class Contract {
     if (!x0.every((x, i) => y0[i] === x)) { return false; }
     return true;
   }
-  _equal_28(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_29(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_30(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_31(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_32(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_33(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_34(x0, y0) {
-    if (x0 !== y0) { return false; }
-    return true;
-  }
-  _equal_35(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_36(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_37(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_38(x0, y0) {
-    if (x0 !== y0) { return false; }
-    return true;
-  }
-  _equal_39(x0, y0) {
-    if (x0 !== y0) { return false; }
-    return true;
-  }
-  _equal_40(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_41(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_42(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_43(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_44(x0, y0) {
-    if (!x0.every((x, i) => y0[i] === x)) { return false; }
-    return true;
-  }
-  _equal_45(x0, y0) {
-    if (x0 !== y0) { return false; }
-    return true;
-  }
 }
 export function ledger(stateOrChargedState) {
   const state = stateOrChargedState instanceof __compactRuntime.StateValue ? stateOrChargedState : stateOrChargedState.state;
   const chargedState = stateOrChargedState instanceof __compactRuntime.StateValue ? new __compactRuntime.ChargedState(stateOrChargedState) : stateOrChargedState;
   const context = {
-    currentQueryContext: new __compactRuntime.QueryContext(chargedState, __compactRuntime.dummyContractAddress()),
+    callContext: { currentQueryContext: new __compactRuntime.QueryContext(chargedState, __compactRuntime.dummyContractAddress()), currentGasCost: __compactRuntime.emptyRunningCost() },
     costModel: __compactRuntime.CostModel.initialCostModel()
   };
   const partialProofData = {
@@ -4585,7 +4602,7 @@ export function ledger(stateOrChargedState) {
   };
 }
 const _emptyContext = {
-  currentQueryContext: new __compactRuntime.QueryContext(new __compactRuntime.ContractState().data, __compactRuntime.dummyContractAddress())
+  callContext: { currentQueryContext: new __compactRuntime.QueryContext(new __compactRuntime.ContractState().data, __compactRuntime.dummyContractAddress()), currentGasCost: __compactRuntime.emptyRunningCost() }
 };
 const _dummyContract = new Contract({
   local_secret_key: (...args) => undefined,
@@ -4802,6 +4819,43 @@ export const pureCircuits = {
     return _dummyContract._recordKey_0(owner_0, payload_hash_0);
   }
 };
-export const contractReferenceLocations =
-  { tag: 'publicLedgerArray', indices: { } };
+export const expectedVk = {
+  'anchorContentRoot': '647980ef4fa87305ded24d8a3b11778a41e05de46ea8213145a2c6836cd8667e',
+  'attest': 'dcacb2acb346056fd34b1f8302fc5f9ce9aa6f79af00ec6b2caba0bda918e9cc',
+  'bindDocument': '18b328fc3875c07b0eb875e678852439e40f926365843a5a378bc2875c304ec6',
+  'grantDisclosure': '5ba1b200dfb54c76d11c31dbe536b2be8207829cf619276277a27e681ecdfb94',
+  'proveDocumentComparison': '75046a480e9597dfde5883418d450e45b68771cf838d5d4706b095bd2653c150',
+  'proveFieldEquality': '446fea6f43fb02c8706c8dc2ad2c9a55af3c003291130c3691e9aefab3931106',
+  'proveFieldMembership': '6016de9eadda149a7c5a3e430dde448df4eb19acaf55f0bda6b29f08e3c016d2',
+  'proveFieldPredicate': 'd3e9b07d941c505f2ef2811593ea5e6c7f10bfbe70001b0df79892431ce4fd77',
+  'registerDocument': 'c622666d08dcae10be1eac00ce1f09175ce261418e92d44825c33d0bfb2dea02',
+  'retract': 'ed034212c35d4a5847be0206ca359de44b50c0ab10eab2744fca86cb63be5314',
+  'revokeDisclosure': '0eb44fffd4e72a5473f917365e0ff87edfb3a4b31d0300132df776dc64cdc619',
+};
+
+export const circuitSignatures = {
+  'leafHash': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '18446744073709551615'}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Bytes', length: 32}},
+  'bytesLeafHash': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Bytes', length: 32}},
+  'absentLeafHash': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Bytes', length: 32}},
+  'nodeHash': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Bytes', length: 32}},
+  'setLeafHash': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}], resultType: {tag: 'Bytes', length: 32}},
+  'descriptorLeafHash': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '255'}, {tag: 'Uint', maxval: '18446744073709551615'}], resultType: {tag: 'Bytes', length: 32}},
+  'slotSalt': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '255'}], resultType: {tag: 'Bytes', length: 32}},
+  'emptyLeafKey': {pure: true, provable: false, argumentTypes: [], resultType: {tag: 'Bytes', length: 32}},
+  'recordKey': {pure: true, provable: false, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Bytes', length: 32}},
+  'attest': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Tuple', types: []}},
+  'retract': {pure: false, provable: true, argumentTypes: [{tag: 'Uint', maxval: '255'}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Tuple', types: []}},
+  'grantDisclosure': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '255'}], resultType: {tag: 'Tuple', types: []}},
+  'revokeDisclosure': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Tuple', types: []}},
+  'registerDocument': {pure: false, provable: true, argumentTypes: [{tag: 'Uint', maxval: '255'}, {tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Tuple', types: []}},
+  'bindDocument': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Tuple', types: []}},
+  'anchorContentRoot': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}], resultType: {tag: 'Tuple', types: []}},
+  'proveFieldPredicate': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '18446744073709551615'}, {tag: 'Uint', maxval: '255'}, {tag: 'Uint', maxval: '18446744073709551615'}], resultType: {tag: 'Tuple', types: []}},
+  'proveFieldEquality': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '18446744073709551615'}], resultType: {tag: 'Tuple', types: []}},
+  'proveFieldMembership': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '18446744073709551615'}], resultType: {tag: 'Tuple', types: []}},
+  'proveDocumentComparison': {pure: false, provable: true, argumentTypes: [{tag: 'Bytes', length: 32}, {tag: 'Bytes', length: 32}, {tag: 'Uint', maxval: '255'}, {tag: 'Vector', length: 32, type: {tag: 'Boolean'}}, {tag: 'Uint', maxval: '255'}, {tag: 'Uint', maxval: '18446744073709551615'}], resultType: {tag: 'Tuple', types: []}},
+};
+
+export const declaredInterfaces = {};
+
 //# sourceMappingURL=index.js.map

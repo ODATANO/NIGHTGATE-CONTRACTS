@@ -10,20 +10,20 @@ export type ImpureCircuits<PS> = {
   mint(context: __compactRuntime.CircuitContext<PS>,
        name_0: Uint8Array,
        amount_0: bigint,
-       recipient_0: { bytes: Uint8Array }): __compactRuntime.CircuitResults<PS, []>;
+       recipient_0: { bytes: Uint8Array }): Promise<__compactRuntime.CircuitResults<PS, []>>;
   burn(context: __compactRuntime.CircuitContext<PS>,
        domain_0: Uint8Array,
-       coin_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): __compactRuntime.CircuitResults<PS, []>;
+       coin_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type ProvableCircuits<PS> = {
   mint(context: __compactRuntime.CircuitContext<PS>,
        name_0: Uint8Array,
        amount_0: bigint,
-       recipient_0: { bytes: Uint8Array }): __compactRuntime.CircuitResults<PS, []>;
+       recipient_0: { bytes: Uint8Array }): Promise<__compactRuntime.CircuitResults<PS, []>>;
   burn(context: __compactRuntime.CircuitContext<PS>,
        domain_0: Uint8Array,
-       coin_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): __compactRuntime.CircuitResults<PS, []>;
+       coin_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type PureCircuits = {
@@ -32,17 +32,17 @@ export type PureCircuits = {
 }
 
 export type Circuits<PS> = {
-  issuerKey(context: __compactRuntime.CircuitContext<PS>, secret_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+  issuerKey(context: __compactRuntime.CircuitContext<PS>, secret_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   domainOf(context: __compactRuntime.CircuitContext<PS>,
            issuer_0: Uint8Array,
-           name_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+           name_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   mint(context: __compactRuntime.CircuitContext<PS>,
        name_0: Uint8Array,
        amount_0: bigint,
-       recipient_0: { bytes: Uint8Array }): __compactRuntime.CircuitResults<PS, []>;
+       recipient_0: { bytes: Uint8Array }): Promise<__compactRuntime.CircuitResults<PS, []>>;
   burn(context: __compactRuntime.CircuitContext<PS>,
        domain_0: Uint8Array,
-       coin_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): __compactRuntime.CircuitResults<PS, []>;
+       coin_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type Ledger = {
@@ -56,18 +56,17 @@ export type Ledger = {
   readonly round: bigint;
 }
 
-export type ContractReferenceLocations = any;
-
-export declare const contractReferenceLocations : ContractReferenceLocations;
-
 export declare class Contract<PS = any, W extends Witnesses<PS> = Witnesses<PS>> {
   witnesses: W;
   circuits: Circuits<PS>;
   impureCircuits: ImpureCircuits<PS>;
   provableCircuits: ProvableCircuits<PS>;
   constructor(witnesses: W);
-  initialState(context: __compactRuntime.ConstructorContext<PS>): __compactRuntime.ConstructorResult<PS>;
+  initialState(context: __compactRuntime.ConstructorContext<PS>): Promise<__compactRuntime.ConstructorResult<PS>>;
 }
 
 export declare function ledger(state: __compactRuntime.StateValue | __compactRuntime.ChargedState): Ledger;
 export declare const pureCircuits: PureCircuits;
+export declare const expectedVk: Record<string, string>;
+export declare const circuitSignatures: __compactRuntime.CircuitSignatures;
+export declare const declaredInterfaces: __compactRuntime.DeclaredInterfaces;

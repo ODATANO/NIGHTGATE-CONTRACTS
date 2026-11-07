@@ -8,10 +8,10 @@
     "increment"
   ],
   "pureCircuits": [],
-  "compactCompiler": "0.31.0",
-  "compactRuntime": "0.16.0",
-  "languageVersion": "0.23.0",
-  "digest": "bd30a06bb1851a6c41f0869c25e0c02a7e8b4ca0b5b12db3d9edf4e17ff3a12a",
-  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/counter-v0.1.0",
+  "compactCompiler": "0.36.0",
+  "compactRuntime": "0.21.0",
+  "languageVersion": "0.28.0",
+  "digest": "7ad472159299fab6d4ced649408eccce92ca0308066cc4dbf7882d5e3c64929f",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/counter-v0.2.0",
   "zkAssetLayout": "flat"
 }

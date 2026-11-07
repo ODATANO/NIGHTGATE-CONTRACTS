@@ -1,0 +1,79 @@
+{
+  "manifest-version": "1",
+  "compiler-version": "0.36.0",
+  "compiler-commit": "b5d9e4dfc532fe47011c4f6296e254f4853eb469",
+  "language-version": "0.28.0",
+  "runtime-version": "0.21.0",
+  "compiler": {
+    "type": "directory",
+    "contract-info.json": {
+      "type": "file",
+      "size": 2522,
+      "hash": "0d79de657593be4d54627e9ce0be630165b3cf7605f45817fe232b20fea5dead"
+    }
+  },
+  "contract": {
+    "type": "directory",
+    "index.d.ts": {
+      "type": "file",
+      "size": 2750,
+      "hash": "58ba4e027ef52ad1ebf6c45bbe3550357a578df213eba0ca1f42eec2b00c6d04"
+    },
+    "index.js": {
+      "type": "file",
+      "size": 50178,
+      "hash": "e5095c72e996a24a25ed3a41ad3233f93c0b7cdadd24b8640d863a9486952cd2"
+    },
+    "index.js.map": {
+      "type": "file",
+      "size": 2582,
+      "hash": "de0dfdbcc5abba7147ecbc564ad8d8f77db993fedb03405fd4cde58b838cdfda"
+    }
+  },
+  "zkir": {
+    "type": "directory",
+    "registerHolder.bzkir": {
+      "type": "file",
+      "size": 1884,
+      "hash": "9e0c230c14e74a9afa33f9174fa5d788eec421168f7fd9b8908fb0d24e63e03c"
+    },
+    "registerHolder.zkir": {
+      "type": "file",
+      "size": 6932,
+      "hash": "9c5e5d668144120b7c185e70bb47f6465d7014e4597f4e2cd23e29d5a808f630"
+    },
+    "unregisterHolder.bzkir": {
+      "type": "file",
+      "size": 597,
+      "hash": "f1db1238a09b6f99da7410f87d5681805488131a1232adadbbbb4f56824c5b38"
+    },
+    "unregisterHolder.zkir": {
+      "type": "file",
+      "size": 2001,
+      "hash": "de8086075fd3768cd0c732446caa4b12ac5f60f1f3d3b64768d58d3dec26aae9"
+    }
+  },
+  "keys": {
+    "type": "directory",
+    "registerHolder.prover": {
+      "type": "file",
+      "size": 45095020,
+      "hash": "2d8f75ac9fae020cbf11ded9769361a15a9ca908e288aaf21c4f7ffe162c249a"
+    },
+    "registerHolder.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "0f22df5c9a1c8094020eb7a4fe07d433672f1ae641eda00ce83b3cb8d4d30588"
+    },
+    "unregisterHolder.prover": {
+      "type": "file",
+      "size": 11277157,
+      "hash": "4156e9cab3f0ce171ddb4d0caa35cd44726d5fa0b340ad34f8f405c6d40a1f8d"
+    },
+    "unregisterHolder.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "54d500f28555dae3a46369404c388dd5f29ea3ac328bca4f7e34b5c99e1d1e59"
+    }
+  }
+}

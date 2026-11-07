@@ -1,6 +1,6 @@
 {
     "name": "@odatano/contract-attestation-vault",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "AttestationVault Compact contract (16 content slots): attestations, anchored content roots, field-bound and cross-root proofs, tiered disclosure on Midnight.",
     "license": "Apache-2.0",
     "author": "ODATANO",
@@ -35,7 +35,7 @@
         "LICENSE"
     ],
     "peerDependencies": {
-        "@midnight-ntwrk/compact-runtime": "0.16.0"
+        "@midnight-ntwrk/compact-runtime": "0.21.0"
     },
     "publishConfig": {
         "access": "public"

@@ -2,140 +2,140 @@
   "version": 1,
   "prover": {
     "anchorContentRoot": {
-      "sha256": "0d4cf9eac9ec99c324cbc16a63d9f2e9656f0997822f55b79e69d5939ec9c916",
-      "bytes": 2824504
+      "sha256": "1a74458bc36b147ae677ef765882ed2483421971f98f95be79756345cfa22b40",
+      "bytes": 11278073
     },
     "attest": {
-      "sha256": "dded46dc1da484358b4854699c5439fc6c8a2873074447d22961530e778fef73",
-      "bytes": 5208718
+      "sha256": "c98aa38e735027fd58782dc6408d0d438b2ef4874a3cdb29b4166286289f2907",
+      "bytes": 11277471
     },
     "bindDocument": {
-      "sha256": "c5e481ab7e68b81489287d2bd810c347650febcaa94d3985e100e84708e4ca40",
-      "bytes": 5222181
+      "sha256": "68706c9fd959574569c515a4e87365324767b23a90808a44e818026119a44112",
+      "bytes": 22553675
     },
     "grantDisclosure": {
-      "sha256": "1f9fc7fa52f73a6e2ada7b645b92c011550ac82fb83bed2c4eac1cabf2906053",
-      "bytes": 2824237
+      "sha256": "9be7fab4f489cb83a9856a3e118430ec883b9ddff1492e2c373e7733b2c2535a",
+      "bytes": 11277658
     },
     "proveDocumentComparison": {
-      "sha256": "ca72fd8cbf33c8c9bc869e17490a2f70249fc964b2f665416a724b473441e747",
-      "bytes": 76492582
+      "sha256": "3c8c4d8117c0ab1f9ee6ebb6109cf974100a3446da9ed7b05225a2f64480bbf8",
+      "bytes": 180473679
     },
     "proveFieldEquality": {
-      "sha256": "b7df1e8e4753330b211b927e1bec2b4415f956a2a290c3282453c01b462d235a",
-      "bytes": 5224683
+      "sha256": "6dbbb96ac89f5deffa38248b42f53bfe75af5d2ec6fa6bc3a91545138503eb61",
+      "bytes": 22552813
     },
     "proveFieldMembership": {
-      "sha256": "81884b5149d8e5a894223caf5a52f408b2b0213ec36e21d75acad97c349565b7",
-      "bytes": 9985978
+      "sha256": "5a1d752c2e120bc9a8e6d6fa26ca0e21d085234c62b68891332e3602527a0031",
+      "bytes": 22555298
     },
     "proveFieldPredicate": {
-      "sha256": "372779ec20e9cc003f825a10a4d252861d17f914b1159b89e2fde9d79a2fdd3d",
-      "bytes": 5225003
+      "sha256": "b53be1aaed0678833caac7c6da8ebb85011329c3254a987d6d59194bd47e6620",
+      "bytes": 22553020
     },
     "registerDocument": {
-      "sha256": "5f8a72eeed0b6d03d506eace6d4ebb92c7013d60f72e4d094e1ae6642f87be86",
-      "bytes": 2833769
+      "sha256": "b3e9842d909c77ae49724fdc9453053ed5507005b199c4fa245e7f6eb93a9a46",
+      "bytes": 11280193
     },
     "retract": {
-      "sha256": "458f11186227d65ed486c5c3dacccf6f612492a50d3ed68cac2fc80ebf6b2e16",
-      "bytes": 2825491
+      "sha256": "fa8c73609469495ae0beb418b5224c13caa64a8f5286105edef90697bed33d66",
+      "bytes": 11279474
     },
     "revokeDisclosure": {
-      "sha256": "52bd49d68c80708357e22584f8f83e40e5e88c14b553ca779c166382e3178f7a",
-      "bytes": 2823966
+      "sha256": "5b545f1a7b66d3d3fe8b43ebf193d6005932181b247bfc5d6a6e765c8b467e3c",
+      "bytes": 11277381
     }
   },
   "verifier": {
     "anchorContentRoot": {
-      "sha256": "f2df111d7ea92bd438d5ee1eb46c3926cc526f0d5d6a80c7a6523c919ee30625",
-      "bytes": 2119
+      "sha256": "647980ef4fa87305ded24d8a3b11778a41e05de46ea8213145a2c6836cd8667e",
+      "bytes": 2121
     },
     "attest": {
-      "sha256": "2fecb84c5d94c8fd469974e519f7783f24a199050d2ec046073be7c91f60026a",
-      "bytes": 2119
+      "sha256": "dcacb2acb346056fd34b1f8302fc5f9ce9aa6f79af00ec6b2caba0bda918e9cc",
+      "bytes": 2121
     },
     "bindDocument": {
-      "sha256": "d5577b38c50275ef995235368d6a6c6ecaa44593453e13c32186ef301e1c5113",
-      "bytes": 2119
+      "sha256": "18b328fc3875c07b0eb875e678852439e40f926365843a5a378bc2875c304ec6",
+      "bytes": 2121
     },
     "grantDisclosure": {
-      "sha256": "6fb94e08aeb29f4025ac12d764d3b1dcb1885766b98d51bb6d9a6a659fe117eb",
-      "bytes": 2119
+      "sha256": "5ba1b200dfb54c76d11c31dbe536b2be8207829cf619276277a27e681ecdfb94",
+      "bytes": 2121
     },
     "proveDocumentComparison": {
-      "sha256": "81867c1fd029c7f39d5e14b2d19de11ab8e02bc6fe9765a24bdfec4a947d37f8",
-      "bytes": 2119
+      "sha256": "75046a480e9597dfde5883418d450e45b68771cf838d5d4706b095bd2653c150",
+      "bytes": 2121
     },
     "proveFieldEquality": {
-      "sha256": "2f996450de7535f99012f7d55df4377f27503d1c8933212acd4e40ea10728172",
-      "bytes": 2119
+      "sha256": "446fea6f43fb02c8706c8dc2ad2c9a55af3c003291130c3691e9aefab3931106",
+      "bytes": 2121
     },
     "proveFieldMembership": {
-      "sha256": "a6bdb4a17bab1ff331663debe0c008d2e4055761330ca9080a52826c66fa7bd4",
-      "bytes": 2119
+      "sha256": "6016de9eadda149a7c5a3e430dde448df4eb19acaf55f0bda6b29f08e3c016d2",
+      "bytes": 2121
     },
     "proveFieldPredicate": {
-      "sha256": "a75d9014e9f30f8e87319da15a2a375a34eb848d2d2e9edd1fea8f752054445e",
-      "bytes": 2119
+      "sha256": "d3e9b07d941c505f2ef2811593ea5e6c7f10bfbe70001b0df79892431ce4fd77",
+      "bytes": 2121
     },
     "registerDocument": {
-      "sha256": "a6ab336f4473edc46dbf0e990940cf77b8075192927c2677bb4c7c5382cd6e5e",
-      "bytes": 2119
+      "sha256": "c622666d08dcae10be1eac00ce1f09175ce261418e92d44825c33d0bfb2dea02",
+      "bytes": 2121
     },
     "retract": {
-      "sha256": "76e8ff897dad57b1427188cb9499b363218e6a9706487e68c07f95817e8b0355",
-      "bytes": 2119
+      "sha256": "ed034212c35d4a5847be0206ca359de44b50c0ab10eab2744fca86cb63be5314",
+      "bytes": 2121
     },
     "revokeDisclosure": {
-      "sha256": "7f675f4974fcbb1cdb45c85de010a2243e7dfc58fa62eae1028f21116a04bf39",
-      "bytes": 2119
+      "sha256": "0eb44fffd4e72a5473f917365e0ff87edfb3a4b31d0300132df776dc64cdc619",
+      "bytes": 2121
     }
   },
   "zkir": {
     "anchorContentRoot": {
-      "sha256": "1e946814864fd9a4d27ca785a36a072f1ab549b6e7e97df2f656dabf89eb2c49",
-      "bytes": 507
+      "sha256": "5850f2b435288c9572d665f71318c45a202f26fb96a74e29b96079ecc345ba8d",
+      "bytes": 1513
     },
     "attest": {
-      "sha256": "d1b42b13a5eae804f699c9facce17bdb741b6e8b0afa90a50c342313b6e43396",
-      "bytes": 254
+      "sha256": "e7fe65a33729095dde2c2cce634a62e54fb12c59094d7550fc5832fb1d940264",
+      "bytes": 911
     },
     "bindDocument": {
-      "sha256": "e76eacd5745e28431fd1798bb46ac21fba204cce1d13023f0e58873d30f5f392",
-      "bytes": 2234
+      "sha256": "49e68f6417865eb8d22f27112e94aef01d766c6aa62a399c9894ec7134cce60a",
+      "bytes": 4923
     },
     "grantDisclosure": {
-      "sha256": "ecaae325fae44a486ccea17882c811bf448fa40311dbf7d339d9d86859316d3e",
-      "bytes": 386
+      "sha256": "2c61a37e5ccb1e2b15eb6020726fc3ee30537691e9aafdaae83e0dcb6e433fa2",
+      "bytes": 1098
     },
     "proveDocumentComparison": {
-      "sha256": "b0a616c82411834f9039a70d7dde1958519965c36ee0cbb043b6bbd255d52f38",
-      "bytes": 21717
+      "sha256": "2677a0915bf1c315dc9174b2fc86a2cdd9c7d9392480fab71f5981e27f106ebf",
+      "bytes": 114237
     },
     "proveFieldEquality": {
-      "sha256": "59da5362a3d3b28311c89a45d5aed789ef01868c8a517f5b5a9d14eb4b39010e",
-      "bytes": 1011
+      "sha256": "b7c6c1da0efb864e527e799431d854b3f2db830c7e1ec7398555bf48cfe6f235",
+      "bytes": 4061
     },
     "proveFieldMembership": {
-      "sha256": "c7a4195f51e8de4467642d219ffcfb21b54c3c9ea5caec5931d353b023c62d97",
-      "bytes": 1474
+      "sha256": "392f4d3de5aff2f94d72cd6e96b9852d8fcfd58ba6fbbc41ae4012bd5afd3dff",
+      "bytes": 6546
     },
     "proveFieldPredicate": {
-      "sha256": "d4264585427a29c4901f810948dd80a1d18fd33b8a24824476559292f0a302c2",
-      "bytes": 1078
+      "sha256": "3593fce609c365e74d7dd58d475c855cc19f36835eae2b7766dd9d6ba58a91a3",
+      "bytes": 4268
     },
     "registerDocument": {
-      "sha256": "27d486438fdc9794250aa7943f6ec23ddeeba38a44ba57c73d3460c121193e14",
-      "bytes": 1870
+      "sha256": "15dde7f91cf51129be3dd949f66687a9106593c727e3ab811e2a42dde2feac4e",
+      "bytes": 3633
     },
     "retract": {
-      "sha256": "bb8f0d9ec2f3d3eed4f48a803d767bb15953c51b1a71dd33f8671f4380b821dc",
-      "bytes": 1708
+      "sha256": "eb56d5aa4fa79833069d79ace043663aec93ce739bdd8216b6f27e68eae8ea76",
+      "bytes": 2914
     },
     "revokeDisclosure": {
-      "sha256": "a1b4d5751de8e81ed89dcbc83ad774a4484bbdd12dd9f92007f7af58d71e6d40",
-      "bytes": 260
+      "sha256": "a2c427237ef886b1d2f3a645e1328d85a13a15f2219a7314c3af7af237e23efe",
+      "bytes": 821
     }
   }
 }

@@ -22,22 +22,22 @@ const RECIPIENT = '33'.repeat(32);
 let mod: any;
 let rt: any;
 
-function failing(fn: () => unknown): string {
-    try { fn(); return ''; } catch (err: any) { return String(err?.message ?? err) || 'threw'; }
+async function failing(fn: () => unknown): Promise<string> {
+    try { await fn(); return ''; } catch (err: any) { return String(err?.message ?? err) || 'threw'; }
 }
 
 /** The factory on an in-memory ledger; every assert is enforced, nothing is proven. */
-function localFactory() {
+async function localFactory() {
     let bag: { issuerSecret?: Uint8Array } = {};
     const contract = new mod.Contract(tokenFactoryWitnesses(() => bag));
     const coinPk = { bytes: new Uint8Array(32).fill(1) };
     const address = rt.sampleContractAddress();
-    let state = contract.initialState(rt.createConstructorContext(undefined, coinPk)).currentContractState;
-    const call = (circuit: string, args: unknown[], inputs: { issuerSecret?: Uint8Array } = {}) => {
+    let state = (await contract.initialState(rt.createConstructorContext(undefined, coinPk))).currentContractState;
+    const call = async (circuit: string, args: unknown[], inputs: { issuerSecret?: Uint8Array } = {}) => {
         bag = inputs;
-        const ctx = rt.createCircuitContext(address, coinPk, state, undefined);
-        const r = contract.circuits[circuit](ctx, ...args);
-        state = r.context.currentQueryContext.state;
+        const ctx = rt.createCircuitContext({ circuitId: 'test', contractAddress: address, coinPublicKeyOrZswapState: coinPk, contractState: state, privateState: undefined });
+        const r = await contract.circuits[circuit](ctx, ...args);
+        state = r.context.callContext.currentQueryContext.state;
         return r;
     };
     return {
@@ -57,7 +57,7 @@ beforeAll(async () => {
 });
 
 describe('token names', () => {
-    test('pad to 32 bytes and back; longer names are refused', () => {
+    test('pad to 32 bytes and back; longer names are refused', async () => {
         const n = tokenName('CREDIT');
         expect(n).toHaveLength(32);
         expect(nameOf(n)).toBe('CREDIT');
@@ -67,7 +67,7 @@ describe('token names', () => {
 });
 
 describe('issuer secret of a seed', () => {
-    test('is 32 bytes, deterministic, per seed, and not the vault secret of the same seed', () => {
+    test('is 32 bytes, deterministic, per seed, and not the vault secret of the same seed', async () => {
         const seed = new Uint8Array(32).fill(7);
         const a = deriveTokenFactoryIssuerSecret(seed);
         expect(a).toHaveLength(32);
@@ -92,7 +92,7 @@ describe('issuer, domain and type', () => {
         expect((await tokenTypeOf(mod.pureCircuits, { issuerSecret: SECRET, name: 'DATA', contractAddress: address })).type).not.toBe(t.type);
     });
 
-    test('the circuit list matches the artifact', () => {
+    test('the circuit list matches the artifact', async () => {
         expect([...TOKEN_FACTORY_CIRCUITS].sort()).toEqual(Object.keys(mod.Contract.prototype.circuits ?? {}).length
             ? Object.keys(new mod.Contract(tokenFactoryWitnesses(() => ({}))).circuits).sort()
             : ['burn', 'mint']);
@@ -100,21 +100,21 @@ describe('issuer, domain and type', () => {
 });
 
 describe('mint and burn on the ledger', () => {
-    test('the first mint creates the token, later mints add to its supply; another issuer gets another token', () => {
-        const f = localFactory();
+    test('the first mint creates the token, later mints add to its supply; another issuer gets another token', async () => {
+        const f = await localFactory();
         const issuer = issuerKeyOf(mod.pureCircuits, SECRET);
         const domain = domainOf(mod.pureCircuits, issuer, 'CREDIT');
-        f.mint(SECRET, 'CREDIT', 100n);
+        await f.mint(SECRET, 'CREDIT', 100n);
         let led = f.ledger();
         expect(led.tokens.member(Buffer.from(domain, 'hex'))).toBe(true);
         let token = led.tokens.lookup(Buffer.from(domain, 'hex'));
         expect(bytesToHex(token.issuer)).toBe(issuer);
         expect(nameOf(token.name)).toBe('CREDIT');
         expect(token.supply).toBe(100n);
-        f.mint(SECRET, 'CREDIT', 50n);
+        await f.mint(SECRET, 'CREDIT', 50n);
         token = f.ledger().tokens.lookup(Buffer.from(domain, 'hex'));
         expect(token.supply).toBe(150n);
-        f.mint(OTHER_SECRET, 'CREDIT', 7n);
+        await f.mint(OTHER_SECRET, 'CREDIT', 7n);
         led = f.ledger();
         const otherDomain = domainOf(mod.pureCircuits, issuerKeyOf(mod.pureCircuits, OTHER_SECRET), 'CREDIT');
         expect(otherDomain).not.toBe(domain);
@@ -122,27 +122,28 @@ describe('mint and burn on the ledger', () => {
         expect(led.tokens.lookup(Buffer.from(domain, 'hex')).supply).toBe(150n);
     });
 
-    test('a zero mint and a mint without the issuer secret are refused', () => {
-        const f = localFactory();
+    test('a zero mint and a mint without the issuer secret are refused', async () => {
+        const f = await localFactory();
         expect(() => prepareMint({ name: 'X', amount: 0, recipientCoinPublicKey: RECIPIENT, issuerSecret: SECRET })).toThrow(/positive/);
         const contract = new mod.Contract(tokenFactoryWitnesses(() => ({})));
-        const ctx = rt.createCircuitContext(f.address, { bytes: new Uint8Array(32).fill(1) },
-            contract.initialState(rt.createConstructorContext(undefined, { bytes: new Uint8Array(32).fill(1) })).currentContractState, undefined);
-        expect(failing(() => contract.circuits.mint(ctx, tokenName('X'), 1n, { bytes: Buffer.from(RECIPIENT, 'hex') }))).toMatch(/issuer secret/);
+        const coinPk = { bytes: new Uint8Array(32).fill(1) };
+        const initial = await contract.initialState(rt.createConstructorContext(undefined, coinPk));
+        const ctx = rt.createCircuitContext({ circuitId: 'mint', contractAddress: f.address, coinPublicKeyOrZswapState: coinPk, contractState: initial.currentContractState, privateState: undefined });
+        expect(await failing(() => contract.circuits.mint(ctx, tokenName('X'), 1n, { bytes: Buffer.from(RECIPIENT, 'hex') }))).toMatch(/issuer secret/);
     });
 
     test('burn lowers the supply and refuses foreign or oversized coins', async () => {
-        const f = localFactory();
+        const f = await localFactory();
         const issuer = issuerKeyOf(mod.pureCircuits, SECRET);
         const domain = domainOf(mod.pureCircuits, issuer, 'CREDIT');
-        f.mint(SECRET, 'CREDIT', 100n);
+        await f.mint(SECRET, 'CREDIT', 100n);
         const { type } = await tokenTypeOf(mod.pureCircuits, { issuerKey: issuer, name: 'CREDIT', contractAddress: f.address });
         const coin = (value: bigint, color: string = type) => ({ nonce: '44'.repeat(32), color, value });
-        f.burn(domain, coin(40n));
+        await f.burn(domain, coin(40n));
         expect(f.ledger().tokens.lookup(Buffer.from(domain, 'hex')).supply).toBe(60n);
-        expect(failing(() => f.burn(domain, coin(61n)))).toMatch(/burns more than circulates/);
-        expect(failing(() => f.burn(domain, coin(1n, '55'.repeat(32))))).toMatch(/not of this token/);
-        expect(failing(() => f.burn('66'.repeat(32), coin(1n)))).toMatch(/not a token of this factory/);
+        expect(await failing(() => f.burn(domain, coin(61n)))).toMatch(/burns more than circulates/);
+        expect(await failing(() => f.burn(domain, coin(1n, '55'.repeat(32))))).toMatch(/not of this token/);
+        expect(await failing(() => f.burn('66'.repeat(32), coin(1n)))).toMatch(/not a token of this factory/);
         expect(() => prepareBurn({ domain, coin: coin(0n) })).toThrow(/positive/);
     });
 });

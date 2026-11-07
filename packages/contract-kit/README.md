@@ -5,7 +5,7 @@ browser dApp or a transaction builder needs to hash, prove and verify against
 the circuits without owning a copy of the rules.
 
 ```bash
-npm install @odatano/contract-kit @midnight-ntwrk/compact-runtime@0.16.0
+npm install @odatano/contract-kit @midnight-ntwrk/compact-runtime@0.21.0
 ```
 
 ## `@odatano/contract-kit` (browser-safe)

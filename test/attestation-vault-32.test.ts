@@ -37,9 +37,9 @@ const toHex = (b: Uint8Array) => Buffer.from(b).toString('hex');
 const maskOf = (...slots: number[]) => Array.from({ length: WIDTH }, (_, i) => slots.includes(i));
 
 /** Runs `fn` and returns the thrown message ('' when it did not throw). */
-function failing(fn: () => unknown): string {
+async function failing(fn: () => unknown): Promise<string> {
     try {
-        fn();
+        await fn();
         return '';
     } catch (err: any) {
         return String(err?.message ?? err) || 'threw';
@@ -68,31 +68,25 @@ function buildWidthDocuments() {
 
 interface Vault {
     owner: any;
-    run(contract: any, circuit: string, ...args: unknown[]): any;
-    attest(contract: any, payload: Uint8Array, meta: Uint8Array): any;
+    run(contract: any, circuit: string, ...args: unknown[]): Promise<any>;
+    attest(contract: any, payload: Uint8Array, meta: Uint8Array): Promise<any>;
     ledger(): any;
     setBlockTime(seconds: number): void;
 }
 
 /** A fresh width-32 contract state deployed by the owner (registrar = owner id). */
-function deployVault(): Vault {
+async function deployVault(): Promise<Vault> {
     const owner = new ContractClass(buildAttestationVaultWitnesses({
         attestationSecret: ownerSecret, slotWidth: WIDTH
     } as any));
     const registrarId = rt.persistentHash(new rt.CompactTypeBytes(32), ownerSecret);
     const ctorCtx = rt.createConstructorContext({}, '00'.repeat(32));
-    const init = owner.initialState(ctorCtx, registrarId, new Uint8Array(32));
-    let ctx = rt.createCircuitContext(
-        rt.dummyContractAddress(),
-        ctorCtx.initialZswapLocalState.coinPublicKey,
-        init.currentContractState.data,
-        init.currentPrivateState,
-        undefined, undefined, BLOCK_TIME
-    );
+    const init = await owner.initialState(ctorCtx, registrarId, new Uint8Array(32));
+    let ctx = rt.createCircuitContext({ circuitId: 'test', contractAddress: rt.dummyContractAddress(), coinPublicKeyOrZswapState: ctorCtx.initialZswapLocalState.coinPublicKey, contractState: init.currentContractState.data, privateState: init.currentPrivateState, time: BLOCK_TIME });
     const v: Vault = {
         owner,
-        run(contract, circuit, ...args) {
-            const out = contract.impureCircuits[circuit](ctx, ...args);
+        async run(contract, circuit, ...args) {
+            const out = await contract.impureCircuits[circuit](ctx, ...args);
             ctx = out.context;
             return out;
         },
@@ -100,25 +94,25 @@ function deployVault(): Vault {
             return v.run(contract, 'attest', payload, meta);
         },
         ledger() {
-            return mod.ledger(ctx.currentQueryContext.state);
+            return mod.ledger(ctx.callContext.currentQueryContext.state);
         },
         setBlockTime(seconds) {
-            ctx.currentQueryContext.block = { ...ctx.currentQueryContext.block, secondsSinceEpoch: BigInt(seconds) };
+            ctx.callContext.currentQueryContext.block = { ...ctx.callContext.currentQueryContext.block, secondsSinceEpoch: BigInt(seconds) };
         }
     };
     return v;
 }
 
 /** Attests + anchors both width documents on a fresh vault. */
-function deployWithDocuments() {
-    const v = deployVault();
+async function deployWithDocuments() {
+    const v = await deployVault();
     const { builtA, builtB } = buildWidthDocuments();
     const payloadA = bytes32(0xd1);
     const payloadB = bytes32(0xd2);
-    v.attest(v.owner, payloadA, bytes32(0xd4));
-    v.attest(v.owner, payloadB, bytes32(0xd5));
-    v.run(v.owner, 'anchorContentRoot', payloadA, hexToBytes(builtA.contentRoot), hexToBytes(builtA.schemaId));
-    v.run(v.owner, 'anchorContentRoot', payloadB, hexToBytes(builtB.contentRoot), hexToBytes(builtB.schemaId));
+    await v.attest(v.owner, payloadA, bytes32(0xd4));
+    await v.attest(v.owner, payloadB, bytes32(0xd5));
+    await v.run(v.owner, 'anchorContentRoot', payloadA, hexToBytes(builtA.contentRoot), hexToBytes(builtA.schemaId));
+    await v.run(v.owner, 'anchorContentRoot', payloadB, hexToBytes(builtB.contentRoot), hexToBytes(builtB.schemaId));
     const docPairContract = new ContractClass(buildAttestationVaultWitnesses({
         attestationSecret: ownerSecret, slotWidth: WIDTH,
         merkleProof: { docPair: { schema: builtA.schema, openingA: builtA.opening, openingB: builtB.opening } }
@@ -136,11 +130,11 @@ describe('width-32 artifact and builder', () => {
     let builtA: any;
     let builtB: any;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         ({ builtA, builtB } = buildWidthDocuments());
     });
 
-    test('the artifact loads with Contract, eleven circuits and pureCircuits', () => {
+    test('the artifact loads with Contract, eleven circuits and pureCircuits', async () => {
         expect(typeof ContractClass).toBe('function');
         expect(mod.pureCircuits).toBeDefined();
         const instance = new ContractClass(buildAttestationVaultWitnesses({ attestationSecret: ownerSecret, slotWidth: WIDTH } as any));
@@ -148,21 +142,21 @@ describe('width-32 artifact and builder', () => {
         expect(typeof instance.circuits?.retract).toBe('function');
     });
 
-    test('the builder emits 32 leaves, 32 schema slots and 32 opening slots', () => {
+    test('the builder emits 32 leaves, 32 schema slots and 32 opening slots', async () => {
         expect(builtA.leaves.length).toBe(WIDTH);
         expect(builtA.schema.length).toBe(WIDTH);
         expect(builtA.opening.slots.length).toBe(WIDTH);
     });
 
-    test('inclusion paths are DEPTH 5', () => {
+    test('inclusion paths are DEPTH 5', async () => {
         expect(builtA.fields.every((f: any) => f.siblings.length === DEPTH && f.dirs.length === DEPTH)).toBe(true);
     });
 
-    test('both documents share one schemaId', () => {
+    test('both documents share one schemaId', async () => {
         expect(builtA.schemaId).toBe(builtB.schemaId);
     });
 
-    test('expandAllowedMask(0x80000001, 32) frees exactly slots 0 and 31 (the JS-bitwise edge)', () => {
+    test('expandAllowedMask(0x80000001, 32) frees exactly slots 0 and 31 (the JS-bitwise edge)', async () => {
         const expanded = expandAllowedMask(0x80000001, WIDTH);
         expect(expanded.length).toBe(WIDTH);
         expect(expanded[0]).toBe(true);
@@ -172,15 +166,15 @@ describe('width-32 artifact and builder', () => {
 });
 
 describe('width-32 proofs against the real circuits', () => {
-    let d: ReturnType<typeof deployWithDocuments>;
+    let d: Awaited<ReturnType<typeof deployWithDocuments>>;
     let marker7: any;
 
-    beforeAll(() => {
-        d = deployWithDocuments();
+    beforeAll(async () => {
+        d = await deployWithDocuments();
         marker7 = d.builtA.fields.find((f: any) => f.field === 'marker_07');
     });
 
-    test('proveFieldPredicate lands over the depth-5 path', () => {
+    test('proveFieldPredicate lands over the depth-5 path', async () => {
         const eqContract = new ContractClass(buildAttestationVaultWitnesses({
             attestationSecret: ownerSecret, slotWidth: WIDTH,
             merkleProof: {
@@ -188,23 +182,23 @@ describe('width-32 proofs against the real circuits', () => {
                 siblings: marker7.siblings, dirs: marker7.dirs
             }
         } as any));
-        expect(failing(() => d.v.run(eqContract, 'proveFieldPredicate', ownerRk(d.payloadA), hexToBytes(marker7.fieldKey), 1000000n, 0n, VALID_UNTIL))).toBe('');
+        expect(await failing(() => d.v.run(eqContract, 'proveFieldPredicate', ownerRk(d.payloadA), hexToBytes(marker7.fieldKey), 1000000n, 0n, VALID_UNTIL))).toBe('');
     });
 
-    test('an integrity proof with bit 31 set lands (slots 0 + 31 differ)', () => {
-        expect(failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 0n, maskOf(0, 31), 1n, VALID_UNTIL))).toBe('');
+    test('an integrity proof with bit 31 set lands (slots 0 + 31 differ)', async () => {
+        expect(await failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 0n, maskOf(0, 31), 1n, VALID_UNTIL))).toBe('');
     });
 
-    test('an integrity mask missing the changed slot 31 is rejected in-circuit', () => {
-        expect(failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 0n, maskOf(0), 1n, VALID_UNTIL))).not.toBe('');
+    test('an integrity mask missing the changed slot 31 is rejected in-circuit', async () => {
+        expect(await failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 0n, maskOf(0), 1n, VALID_UNTIL))).not.toBe('');
     });
 
-    test('a diff proof k=2 of 32 lands', () => {
-        expect(failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 1n, maskOf(), 2n, VALID_UNTIL))).toBe('');
+    test('a diff proof k=2 of 32 lands', async () => {
+        expect(await failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 1n, maskOf(), 2n, VALID_UNTIL))).toBe('');
     });
 
-    test('a diff proof k=3 is rejected (only 2 slots differ)', () => {
-        expect(failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 1n, maskOf(), 3n, VALID_UNTIL))).not.toBe('');
+    test('a diff proof k=3 is rejected (only 2 slots differ)', async () => {
+        expect(await failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 1n, maskOf(), 3n, VALID_UNTIL))).not.toBe('');
     });
 
     test('the claim keys (mask 0x80000001 at width 32, diff k=2, field predicate) match the circuit', async () => {
@@ -236,10 +230,10 @@ describe('width-32 proofs against the real circuits', () => {
         const rootB = toHex(led0.content_anchors.lookup(ownerRk(d.payloadB)).root);
         const schema = toHex(led0.content_anchors.lookup(ownerRk(d.payloadA)).schema);
         const integKey = hexToBytes(await computeDocumentIntegrityClaimKey(toHex(ownerRk(d.payloadA)), rootA, toHex(ownerRk(d.payloadB)), rootB, schema, 0x80000001, WIDTH));
-        const prove = (until: bigint) => failing(() =>
+        const prove = async (until: bigint) => failing(() =>
             d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(d.payloadB), 0n, maskOf(0, 31), 1n, until));
-        expect(prove(VALID_UNTIL - 1n)).toContain('claim expiry cannot be shortened');
-        expect(prove(VALID_UNTIL + 1n)).toBe('');
+        expect(await prove(VALID_UNTIL - 1n)).toContain('claim expiry cannot be shortened');
+        expect(await prove(VALID_UNTIL + 1n)).toBe('');
         expect(d.v.ledger().claims.lookup(integKey)).toBe(VALID_UNTIL + 1n);
     });
 
@@ -248,35 +242,35 @@ describe('width-32 proofs against the real circuits', () => {
         const rootA = toHex(led0.content_anchors.lookup(ownerRk(d.payloadA)).root);
         const schema = toHex(led0.content_anchors.lookup(ownerRk(d.payloadA)).schema);
         const predKey = hexToBytes(await computeFieldPredicateClaimKey(toHex(ownerRk(d.payloadA)), rootA, schema, marker7.fieldKey, 1000000n, 0));
-        expect(failing(() => d.v.run(d.v.owner, 'retract', 0n, d.payloadA))).toBe('');
+        expect(await failing(() => d.v.run(d.v.owner, 'retract', 0n, d.payloadA))).toBe('');
         const led = d.v.ledger();
         expect(led.attestations.member(ownerRk(d.payloadA))).toBe(false);
         expect(led.content_anchors.member(ownerRk(d.payloadA))).toBe(false);
         expect(led.claims.member(predKey)).toBe(true);
-        expect(failing(() => d.v.run(d.v.owner, 'retract', 1n, predKey))).toContain('claim not expired');
+        expect(await failing(() => d.v.run(d.v.owner, 'retract', 1n, predKey))).toContain('claim not expired');
     });
 });
 
 describe('record keys on the width-32 artifact', () => {
-    let d: ReturnType<typeof deployWithDocuments>;
+    let d: Awaited<ReturnType<typeof deployWithDocuments>>;
 
-    beforeAll(() => {
-        d = deployWithDocuments();
+    beforeAll(async () => {
+        d = await deployWithDocuments();
     });
 
     test('the record key is the off-chain recompute of attester id and payload', async () => {
         expect(toHex(ownerRk(d.payloadA))).toBe(await computeRecordKey(toHex(rt.persistentHash(new rt.CompactTypeBytes(32), ownerSecret)), toHex(d.payloadA)));
     });
 
-    test('the record carries owner and payload; a re-attest of the same record is refused', () => {
+    test('the record carries owner and payload; a re-attest of the same record is refused', async () => {
         const rec = d.v.ledger().attestations.lookup(ownerRk(d.payloadA));
         expect(sameBytesLocal(rec.payload_hash, d.payloadA)).toBe(true);
         expect(sameBytesLocal(rec.metadata_hash, bytes32(0xd4))).toBe(true);
-        expect(failing(() => d.v.attest(d.v.owner, d.payloadA, bytes32(0xd4)))).toContain('already attested');
+        expect(await failing(() => d.v.attest(d.v.owner, d.payloadA, bytes32(0xd4)))).toContain('already attested');
     });
 
-    test('a proof against a record key nobody anchored is refused', () => {
-        expect(failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(bytes32(0xd9)), 1n, maskOf(), 2n, VALID_UNTIL)))
+    test('a proof against a record key nobody anchored is refused', async () => {
+        expect(await failing(() => d.v.run(d.docPairContract, 'proveDocumentComparison', ownerRk(d.payloadA), ownerRk(bytes32(0xd9)), 1n, maskOf(), 2n, VALID_UNTIL)))
             .toContain('no content root B');
     });
 });

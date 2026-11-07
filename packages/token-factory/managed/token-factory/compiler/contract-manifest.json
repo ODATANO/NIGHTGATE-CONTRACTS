@@ -1,0 +1,79 @@
+{
+  "manifest-version": "1",
+  "compiler-version": "0.36.0",
+  "compiler-commit": "b5d9e4dfc532fe47011c4f6296e254f4853eb469",
+  "language-version": "0.28.0",
+  "runtime-version": "0.21.0",
+  "compiler": {
+    "type": "directory",
+    "contract-info.json": {
+      "type": "file",
+      "size": 4073,
+      "hash": "b0a6f0f1a5d23687631528c6ee7692a5a36e812f982badfc25524319cf9f4211"
+    }
+  },
+  "contract": {
+    "type": "directory",
+    "index.d.ts": {
+      "type": "file",
+      "size": 3027,
+      "hash": "d8f9459e62b5ab4034cbbe7c39e100cc61f91fc6791ac1f7f78130c2a255f98c"
+    },
+    "index.js": {
+      "type": "file",
+      "size": 81773,
+      "hash": "914fbf01e84161619273143c5555df8e9d69232762461c1338b1145ddd46caff"
+    },
+    "index.js.map": {
+      "type": "file",
+      "size": 3964,
+      "hash": "a3def6eace1d5b23cb9a5a2b9980222ad182a9b31f8fd68e60d9294be5c2f524"
+    }
+  },
+  "zkir": {
+    "type": "directory",
+    "burn.bzkir": {
+      "type": "file",
+      "size": 2605,
+      "hash": "b41bc3c9ce22bf65ed222fa375d33d39faa0f2e13778cab6793979178ee8cd4c"
+    },
+    "burn.zkir": {
+      "type": "file",
+      "size": 9216,
+      "hash": "0431b8083107d9a4ce6893cddc28e64066388f9609197d1cf6735015910b6cfd"
+    },
+    "mint.bzkir": {
+      "type": "file",
+      "size": 2556,
+      "hash": "cdb98bd6a2a3ef91eb554f1e428d437c6b8f4905f245cca7820e0083233b036d"
+    },
+    "mint.zkir": {
+      "type": "file",
+      "size": 8333,
+      "hash": "b971c22543d9fe5712468810e910a0f75f225db96d74dde6d4af1cc408c31f61"
+    }
+  },
+  "keys": {
+    "type": "directory",
+    "burn.prover": {
+      "type": "file",
+      "size": 45095741,
+      "hash": "34a6a9b472c855b7835e31a63726c47d0e80021921b982c3b56b823753bec7d0"
+    },
+    "burn.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "c50b1d268b481eb9a32de7d5d9345adf9c6847b6b682b0e04c19cc40d44083b7"
+    },
+    "mint.prover": {
+      "type": "file",
+      "size": 45095692,
+      "hash": "dc15e4fba96e747a4c6f6da3fa951e0b331e0e2c495d4cfb0fefd4a628390de9"
+    },
+    "mint.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "04518f51e577cd5cdd7b81e71370d1bb324b5778cdcc8ce8edf72630e9740042"
+    }
+  }
+}

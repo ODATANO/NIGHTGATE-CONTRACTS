@@ -7,40 +7,40 @@ export type ImpureCircuits<PS> = {
   registerService(context: __compactRuntime.CircuitContext<PS>,
                   salt_0: Uint8Array,
                   price_0: bigint,
-                  owner_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                  owner_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   deposit(context: __compactRuntime.CircuitContext<PS>,
           amount_0: bigint,
-          nonceSeed_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+          nonceSeed_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   pay(context: __compactRuntime.CircuitContext<PS>,
       serviceId_0: Uint8Array,
       credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint },
-      receiptSecret_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+      receiptSecret_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   redeem(context: __compactRuntime.CircuitContext<PS>,
          recipient_0: Uint8Array,
-         credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): __compactRuntime.CircuitResults<PS, []>;
+         credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): Promise<__compactRuntime.CircuitResults<PS, []>>;
   withdraw(context: __compactRuntime.CircuitContext<PS>,
            serviceId_0: Uint8Array,
-           amount_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+           amount_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type ProvableCircuits<PS> = {
   registerService(context: __compactRuntime.CircuitContext<PS>,
                   salt_0: Uint8Array,
                   price_0: bigint,
-                  owner_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                  owner_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   deposit(context: __compactRuntime.CircuitContext<PS>,
           amount_0: bigint,
-          nonceSeed_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+          nonceSeed_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   pay(context: __compactRuntime.CircuitContext<PS>,
       serviceId_0: Uint8Array,
       credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint },
-      receiptSecret_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+      receiptSecret_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   redeem(context: __compactRuntime.CircuitContext<PS>,
          recipient_0: Uint8Array,
-         credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): __compactRuntime.CircuitResults<PS, []>;
+         credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): Promise<__compactRuntime.CircuitResults<PS, []>>;
   withdraw(context: __compactRuntime.CircuitContext<PS>,
            serviceId_0: Uint8Array,
-           amount_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+           amount_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type PureCircuits = {
@@ -51,31 +51,31 @@ export type PureCircuits = {
 
 export type Circuits<PS> = {
   creditColor(context: __compactRuntime.CircuitContext<PS>,
-              self_0: { bytes: Uint8Array }): __compactRuntime.CircuitResults<PS, Uint8Array>;
+              self_0: { bytes: Uint8Array }): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   deriveReceipt(context: __compactRuntime.CircuitContext<PS>,
                 secret_0: Uint8Array,
-                serviceId_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+                serviceId_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   deriveServiceId(context: __compactRuntime.CircuitContext<PS>,
                   owner_0: Uint8Array,
                   salt_0: Uint8Array,
-                  price_0: bigint): __compactRuntime.CircuitResults<PS, Uint8Array>;
+                  price_0: bigint): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   registerService(context: __compactRuntime.CircuitContext<PS>,
                   salt_0: Uint8Array,
                   price_0: bigint,
-                  owner_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                  owner_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   deposit(context: __compactRuntime.CircuitContext<PS>,
           amount_0: bigint,
-          nonceSeed_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+          nonceSeed_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   pay(context: __compactRuntime.CircuitContext<PS>,
       serviceId_0: Uint8Array,
       credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint },
-      receiptSecret_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+      receiptSecret_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   redeem(context: __compactRuntime.CircuitContext<PS>,
          recipient_0: Uint8Array,
-         credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): __compactRuntime.CircuitResults<PS, []>;
+         credit_0: { nonce: Uint8Array, color: Uint8Array, value: bigint }): Promise<__compactRuntime.CircuitResults<PS, []>>;
   withdraw(context: __compactRuntime.CircuitContext<PS>,
            serviceId_0: Uint8Array,
-           amount_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+           amount_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type Ledger = {
@@ -109,18 +109,17 @@ export type Ledger = {
   readonly mintCounter: bigint;
 }
 
-export type ContractReferenceLocations = any;
-
-export declare const contractReferenceLocations : ContractReferenceLocations;
-
 export declare class Contract<PS = any, W extends Witnesses<PS> = Witnesses<PS>> {
   witnesses: W;
   circuits: Circuits<PS>;
   impureCircuits: ImpureCircuits<PS>;
   provableCircuits: ProvableCircuits<PS>;
   constructor(witnesses: W);
-  initialState(context: __compactRuntime.ConstructorContext<PS>): __compactRuntime.ConstructorResult<PS>;
+  initialState(context: __compactRuntime.ConstructorContext<PS>): Promise<__compactRuntime.ConstructorResult<PS>>;
 }
 
 export declare function ledger(state: __compactRuntime.StateValue | __compactRuntime.ChargedState): Ledger;
 export declare const pureCircuits: PureCircuits;
+export declare const expectedVk: Record<string, string>;
+export declare const circuitSignatures: __compactRuntime.CircuitSignatures;
+export declare const declaredInterfaces: __compactRuntime.DeclaredInterfaces;

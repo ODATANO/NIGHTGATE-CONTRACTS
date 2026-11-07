@@ -2,68 +2,68 @@
   "version": 1,
   "prover": {
     "deposit": {
-      "sha256": "51f8a8a7822528a16a805a80f0f0cdf296dc95adce86c1d5be7016165c78779e",
-      "bytes": 9999493
+      "sha256": "bca2ad3af05f78dd3712d090834f2338ba0905eacc4779aa8658003106727105",
+      "bytes": 45096467
     },
     "pay": {
-      "sha256": "e4d51dee7020d28f57dc94805382407dd46958b1210909c00cf01ae36b950faf",
-      "bytes": 5213951
+      "sha256": "4e8f69ab82df340affba2fbf1902812fba60f23e91cbfe2d055bf8d229f42a17",
+      "bytes": 22551479
     },
     "redeem": {
-      "sha256": "3d8dabe51ee5d658858ca7123b94678bb0021f4e2fb290e2ea3dadf42b7c7f38",
-      "bytes": 5205208
+      "sha256": "52b9e5d5cd97303e18d16c921a0d62c76a4f99fda04a415e8d8bc9d675b5eccc",
+      "bytes": 22550857
     },
     "registerService": {
-      "sha256": "a859c05aaa84232cde038e3e8167cce5124cec530309342b0df38f7458db548c",
-      "bytes": 2831210
+      "sha256": "cc451a10c478a0f792a0d5208be652f25edbf24757d9cc7b7b8f3486bc115fba",
+      "bytes": 11277741
     },
     "withdraw": {
-      "sha256": "319d266705a116d18f5125519a85289357e893bb46c420a5fbf60cfdc3685958",
-      "bytes": 155408
+      "sha256": "df53c55573b8ed08ac9efbe9d251ed632395f344d9dd90681863b170c904f9c7",
+      "bytes": 447074
     }
   },
   "verifier": {
     "deposit": {
-      "sha256": "2fe8c9e4e158010f91137871f2ba8cd5b9f7b824be5b0c2a6f8b9be5504ea6b0",
-      "bytes": 2119
+      "sha256": "3967aa980c22fa7db0111c36ab0580752d1c27d242cbef9461fea2b2c0562566",
+      "bytes": 2121
     },
     "pay": {
-      "sha256": "d82561afebe31a5d31823e407e9a378472791673dcdab2963953965214bd7283",
-      "bytes": 2119
+      "sha256": "44146e9d3102fc60deb47d61cc44029424f841c589322d9944b866b9e8d44a34",
+      "bytes": 2121
     },
     "redeem": {
-      "sha256": "9e70ccacfdef50565c07af9c34c704fb1be21803aa5ea3e3f7a2f64428b612e0",
-      "bytes": 2119
+      "sha256": "13b94ab51c5988bbfd64c2aabd243da27a3ffffe298aa7041ef957480d2fb915",
+      "bytes": 2121
     },
     "registerService": {
-      "sha256": "fe28cea6df359f5a1d137104bafe9f10a841b58af00bafdf6ec8312d74ad4647",
-      "bytes": 2119
+      "sha256": "dece03cc1c292c0d305f9bd23485399c71336c88d74765f1ab1e53ced6905ff8",
+      "bytes": 2121
     },
     "withdraw": {
-      "sha256": "d9e875f79bc254125b9e827784c67e02fa1148a3c4c816cc2f6891320b6852bf",
-      "bytes": 1351
+      "sha256": "a61392d20dae6d8fa2d7faac960b0213b92264c267fbdef1ad3b4415794d12d8",
+      "bytes": 1353
     }
   },
   "zkir": {
     "deposit": {
-      "sha256": "db09a673dc6cb4234a7b7d9c5655ae40558e9c2c3fb83c7eabe4250c3c903788",
-      "bytes": 1147
+      "sha256": "c6e5dc6d41e7ddeb96bfda38a3541547550dd6df0c8eb94f32480dd0d0dc2b5b",
+      "bytes": 3331
     },
     "pay": {
-      "sha256": "36e76ffd30649ce21e02d08d289d46c39caef8681cbe299300761d8e0061d9e4",
-      "bytes": 853
+      "sha256": "97bb250228801e0201a6972cf95ace913acc46a3f8d1f12cc1a3e4a55c3e29d5",
+      "bytes": 2727
     },
     "redeem": {
-      "sha256": "86b5b86b9f55d5ca9f364f39849a47120b52209a96241056d0d5376ab126c0de",
-      "bytes": 671
+      "sha256": "dee45be565f8df2ccd11fbfa1eedfe52d60ba3e8b0246ae86e66cc6559e245d7",
+      "bytes": 2105
     },
     "registerService": {
-      "sha256": "3b857ab45c4a24af3c35c7d68c8bb0727056352018213835e767b869eaa19faf",
-      "bytes": 364
+      "sha256": "1673773856c602c25845c5c670d32f83989afc09901126990159960582d125f0",
+      "bytes": 1181
     },
     "withdraw": {
-      "sha256": "f2df93d9c2daa7ed1cda84b8c2f64ebb5c8f8f2b731ab8905d16dc8c388c6e89",
-      "bytes": 703
+      "sha256": "93f2f14077a37a3adab242263a7bc03a923bfdc9024550bcdd4cd3867cefc6df",
+      "bytes": 1938
     }
   }
 }

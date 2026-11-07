@@ -28,101 +28,101 @@ export type Witnesses<PS> = {
 export type ImpureCircuits<PS> = {
   attest(context: __compactRuntime.CircuitContext<PS>,
          payload_hash_0: Uint8Array,
-         metadata_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+         metadata_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   retract(context: __compactRuntime.CircuitContext<PS>,
           mode_0: bigint,
-          key_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+          key_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   grantDisclosure(context: __compactRuntime.CircuitContext<PS>,
                   payload_hash_0: Uint8Array,
                   grantee_0: Uint8Array,
-                  level_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                  level_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   revokeDisclosure(context: __compactRuntime.CircuitContext<PS>,
                    payload_hash_0: Uint8Array,
-                   grantee_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                   grantee_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   registerDocument(context: __compactRuntime.CircuitContext<PS>,
                    mode_0: bigint,
                    document_id_0: Uint8Array,
-                   owner_id_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                   owner_id_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   bindDocument(context: __compactRuntime.CircuitContext<PS>,
                document_id_0: Uint8Array,
-               payload_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+               payload_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   anchorContentRoot(context: __compactRuntime.CircuitContext<PS>,
                     payload_hash_0: Uint8Array,
                     content_root_0: Uint8Array,
-                    schema_id_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                    schema_id_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldPredicate(context: __compactRuntime.CircuitContext<PS>,
                       record_key_0: Uint8Array,
                       field_key_0: Uint8Array,
                       threshold_0: bigint,
                       op_0: bigint,
-                      valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                      valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldEquality(context: __compactRuntime.CircuitContext<PS>,
                      record_key_0: Uint8Array,
                      field_key_0: Uint8Array,
                      expected_digest_0: Uint8Array,
-                     valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                     valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldMembership(context: __compactRuntime.CircuitContext<PS>,
                        record_key_0: Uint8Array,
                        field_key_0: Uint8Array,
                        set_root_0: Uint8Array,
-                       valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                       valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveDocumentComparison(context: __compactRuntime.CircuitContext<PS>,
                           record_key_a_0: Uint8Array,
                           record_key_b_0: Uint8Array,
                           mode_0: bigint,
                           allowed_mask_0: boolean[],
                           k_0: bigint,
-                          valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                          valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type ProvableCircuits<PS> = {
   attest(context: __compactRuntime.CircuitContext<PS>,
          payload_hash_0: Uint8Array,
-         metadata_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+         metadata_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   retract(context: __compactRuntime.CircuitContext<PS>,
           mode_0: bigint,
-          key_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+          key_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   grantDisclosure(context: __compactRuntime.CircuitContext<PS>,
                   payload_hash_0: Uint8Array,
                   grantee_0: Uint8Array,
-                  level_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                  level_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   revokeDisclosure(context: __compactRuntime.CircuitContext<PS>,
                    payload_hash_0: Uint8Array,
-                   grantee_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                   grantee_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   registerDocument(context: __compactRuntime.CircuitContext<PS>,
                    mode_0: bigint,
                    document_id_0: Uint8Array,
-                   owner_id_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                   owner_id_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   bindDocument(context: __compactRuntime.CircuitContext<PS>,
                document_id_0: Uint8Array,
-               payload_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+               payload_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   anchorContentRoot(context: __compactRuntime.CircuitContext<PS>,
                     payload_hash_0: Uint8Array,
                     content_root_0: Uint8Array,
-                    schema_id_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                    schema_id_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldPredicate(context: __compactRuntime.CircuitContext<PS>,
                       record_key_0: Uint8Array,
                       field_key_0: Uint8Array,
                       threshold_0: bigint,
                       op_0: bigint,
-                      valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                      valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldEquality(context: __compactRuntime.CircuitContext<PS>,
                      record_key_0: Uint8Array,
                      field_key_0: Uint8Array,
                      expected_digest_0: Uint8Array,
-                     valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                     valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldMembership(context: __compactRuntime.CircuitContext<PS>,
                        record_key_0: Uint8Array,
                        field_key_0: Uint8Array,
                        set_root_0: Uint8Array,
-                       valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                       valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveDocumentComparison(context: __compactRuntime.CircuitContext<PS>,
                           record_key_a_0: Uint8Array,
                           record_key_b_0: Uint8Array,
                           mode_0: bigint,
                           allowed_mask_0: boolean[],
                           k_0: bigint,
-                          valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                          valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type PureCircuits = {
@@ -143,77 +143,77 @@ export type Circuits<PS> = {
   leafHash(context: __compactRuntime.CircuitContext<PS>,
            field_key_0: Uint8Array,
            value_0: bigint,
-           salt_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+           salt_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   bytesLeafHash(context: __compactRuntime.CircuitContext<PS>,
                 field_key_0: Uint8Array,
                 value_digest_0: Uint8Array,
-                salt_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+                salt_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   absentLeafHash(context: __compactRuntime.CircuitContext<PS>,
                  field_key_0: Uint8Array,
-                 salt_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+                 salt_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   nodeHash(context: __compactRuntime.CircuitContext<PS>,
            left_0: Uint8Array,
-           right_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+           right_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   setLeafHash(context: __compactRuntime.CircuitContext<PS>,
-              value_digest_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+              value_digest_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   descriptorLeafHash(context: __compactRuntime.CircuitContext<PS>,
                      field_key_0: Uint8Array,
                      kind_0: bigint,
-                     scale_0: bigint): __compactRuntime.CircuitResults<PS, Uint8Array>;
+                     scale_0: bigint): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   slotSalt(context: __compactRuntime.CircuitContext<PS>,
            seed_0: Uint8Array,
-           index_0: bigint): __compactRuntime.CircuitResults<PS, Uint8Array>;
-  emptyLeafKey(context: __compactRuntime.CircuitContext<PS>): __compactRuntime.CircuitResults<PS, Uint8Array>;
+           index_0: bigint): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
+  emptyLeafKey(context: __compactRuntime.CircuitContext<PS>): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   recordKey(context: __compactRuntime.CircuitContext<PS>,
             owner_0: Uint8Array,
-            payload_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, Uint8Array>;
+            payload_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, Uint8Array>>;
   attest(context: __compactRuntime.CircuitContext<PS>,
          payload_hash_0: Uint8Array,
-         metadata_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+         metadata_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   retract(context: __compactRuntime.CircuitContext<PS>,
           mode_0: bigint,
-          key_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+          key_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   grantDisclosure(context: __compactRuntime.CircuitContext<PS>,
                   payload_hash_0: Uint8Array,
                   grantee_0: Uint8Array,
-                  level_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                  level_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   revokeDisclosure(context: __compactRuntime.CircuitContext<PS>,
                    payload_hash_0: Uint8Array,
-                   grantee_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                   grantee_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   registerDocument(context: __compactRuntime.CircuitContext<PS>,
                    mode_0: bigint,
                    document_id_0: Uint8Array,
-                   owner_id_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                   owner_id_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   bindDocument(context: __compactRuntime.CircuitContext<PS>,
                document_id_0: Uint8Array,
-               payload_hash_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+               payload_hash_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   anchorContentRoot(context: __compactRuntime.CircuitContext<PS>,
                     payload_hash_0: Uint8Array,
                     content_root_0: Uint8Array,
-                    schema_id_0: Uint8Array): __compactRuntime.CircuitResults<PS, []>;
+                    schema_id_0: Uint8Array): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldPredicate(context: __compactRuntime.CircuitContext<PS>,
                       record_key_0: Uint8Array,
                       field_key_0: Uint8Array,
                       threshold_0: bigint,
                       op_0: bigint,
-                      valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                      valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldEquality(context: __compactRuntime.CircuitContext<PS>,
                      record_key_0: Uint8Array,
                      field_key_0: Uint8Array,
                      expected_digest_0: Uint8Array,
-                     valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                     valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveFieldMembership(context: __compactRuntime.CircuitContext<PS>,
                        record_key_0: Uint8Array,
                        field_key_0: Uint8Array,
                        set_root_0: Uint8Array,
-                       valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                       valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
   proveDocumentComparison(context: __compactRuntime.CircuitContext<PS>,
                           record_key_a_0: Uint8Array,
                           record_key_b_0: Uint8Array,
                           mode_0: bigint,
                           allowed_mask_0: boolean[],
                           k_0: bigint,
-                          valid_until_0: bigint): __compactRuntime.CircuitResults<PS, []>;
+                          valid_until_0: bigint): Promise<__compactRuntime.CircuitResults<PS, []>>;
 }
 
 export type Ledger = {
@@ -276,10 +276,6 @@ export type Ledger = {
   };
 }
 
-export type ContractReferenceLocations = any;
-
-export declare const contractReferenceLocations : ContractReferenceLocations;
-
 export declare class Contract<PS = any, W extends Witnesses<PS> = Witnesses<PS>> {
   witnesses: W;
   circuits: Circuits<PS>;
@@ -288,8 +284,11 @@ export declare class Contract<PS = any, W extends Witnesses<PS> = Witnesses<PS>>
   constructor(witnesses: W);
   initialState(context: __compactRuntime.ConstructorContext<PS>,
                initial_registrar_0: Uint8Array,
-               initial_recovery_0: Uint8Array): __compactRuntime.ConstructorResult<PS>;
+               initial_recovery_0: Uint8Array): Promise<__compactRuntime.ConstructorResult<PS>>;
 }
 
 export declare function ledger(state: __compactRuntime.StateValue | __compactRuntime.ChargedState): Ledger;
 export declare const pureCircuits: PureCircuits;
+export declare const expectedVk: Record<string, string>;
+export declare const circuitSignatures: __compactRuntime.CircuitSignatures;
+export declare const declaredInterfaces: __compactRuntime.DeclaredInterfaces;

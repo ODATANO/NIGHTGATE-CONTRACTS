@@ -1,0 +1,139 @@
+{
+  "manifest-version": "1",
+  "compiler-version": "0.36.0",
+  "compiler-commit": "b5d9e4dfc532fe47011c4f6296e254f4853eb469",
+  "language-version": "0.28.0",
+  "runtime-version": "0.21.0",
+  "compiler": {
+    "type": "directory",
+    "contract-info.json": {
+      "type": "file",
+      "size": 7046,
+      "hash": "f59e3e947b6abac4ed5b323f668f5bbce4c10a93e8e95b0a55e1b904599cdc41"
+    }
+  },
+  "contract": {
+    "type": "directory",
+    "index.d.ts": {
+      "type": "file",
+      "size": 5701,
+      "hash": "a48289e508dae49606f9372293571481715a26755400c2f74cf03917828ab8af"
+    },
+    "index.js": {
+      "type": "file",
+      "size": 158292,
+      "hash": "0f3c3e46517c1d61db4ca906205b7c3b827be520dacf143aac4593494272b3d8"
+    },
+    "index.js.map": {
+      "type": "file",
+      "size": 6310,
+      "hash": "08338cb124de3a1bdc21d7af1222a940f5af116e9c4eb96d443988147c9f9f7a"
+    }
+  },
+  "zkir": {
+    "type": "directory",
+    "deposit.bzkir": {
+      "type": "file",
+      "size": 3331,
+      "hash": "c6e5dc6d41e7ddeb96bfda38a3541547550dd6df0c8eb94f32480dd0d0dc2b5b"
+    },
+    "deposit.zkir": {
+      "type": "file",
+      "size": 10992,
+      "hash": "501dbf52b092edec017f9f6d703cb1861c83beac8c24441d445e95709fc1a459"
+    },
+    "pay.bzkir": {
+      "type": "file",
+      "size": 2727,
+      "hash": "97bb250228801e0201a6972cf95ace913acc46a3f8d1f12cc1a3e4a55c3e29d5"
+    },
+    "pay.zkir": {
+      "type": "file",
+      "size": 8936,
+      "hash": "31c5dc65f0e9667cc380ad02de30a2e34268a5e08ed7968fe7a8d3770c3d9201"
+    },
+    "redeem.bzkir": {
+      "type": "file",
+      "size": 2105,
+      "hash": "dee45be565f8df2ccd11fbfa1eedfe52d60ba3e8b0246ae86e66cc6559e245d7"
+    },
+    "redeem.zkir": {
+      "type": "file",
+      "size": 6714,
+      "hash": "1a62067da0e555260d6137919b6826513cafba9a1f66f9b179a5664f54d0ea72"
+    },
+    "registerService.bzkir": {
+      "type": "file",
+      "size": 1181,
+      "hash": "1673773856c602c25845c5c670d32f83989afc09901126990159960582d125f0"
+    },
+    "registerService.zkir": {
+      "type": "file",
+      "size": 3998,
+      "hash": "ea5340718d9949d9025fc59e4b088d94e49a48e75860488a7bb7d1dcab911873"
+    },
+    "withdraw.bzkir": {
+      "type": "file",
+      "size": 1938,
+      "hash": "93f2f14077a37a3adab242263a7bc03a923bfdc9024550bcdd4cd3867cefc6df"
+    },
+    "withdraw.zkir": {
+      "type": "file",
+      "size": 5864,
+      "hash": "1efb8d29b0cab8c702c6c45f07616d0793eb451be480155710920a5d3b0e0702"
+    }
+  },
+  "keys": {
+    "type": "directory",
+    "deposit.prover": {
+      "type": "file",
+      "size": 45096467,
+      "hash": "bca2ad3af05f78dd3712d090834f2338ba0905eacc4779aa8658003106727105"
+    },
+    "deposit.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "3967aa980c22fa7db0111c36ab0580752d1c27d242cbef9461fea2b2c0562566"
+    },
+    "pay.prover": {
+      "type": "file",
+      "size": 22551479,
+      "hash": "4e8f69ab82df340affba2fbf1902812fba60f23e91cbfe2d055bf8d229f42a17"
+    },
+    "pay.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "44146e9d3102fc60deb47d61cc44029424f841c589322d9944b866b9e8d44a34"
+    },
+    "redeem.prover": {
+      "type": "file",
+      "size": 22550857,
+      "hash": "52b9e5d5cd97303e18d16c921a0d62c76a4f99fda04a415e8d8bc9d675b5eccc"
+    },
+    "redeem.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "13b94ab51c5988bbfd64c2aabd243da27a3ffffe298aa7041ef957480d2fb915"
+    },
+    "registerService.prover": {
+      "type": "file",
+      "size": 11277741,
+      "hash": "cc451a10c478a0f792a0d5208be652f25edbf24757d9cc7b7b8f3486bc115fba"
+    },
+    "registerService.verifier": {
+      "type": "file",
+      "size": 2121,
+      "hash": "dece03cc1c292c0d305f9bd23485399c71336c88d74765f1ab1e53ced6905ff8"
+    },
+    "withdraw.prover": {
+      "type": "file",
+      "size": 447074,
+      "hash": "df53c55573b8ed08ac9efbe9d251ed632395f344d9dd90681863b170c904f9c7"
+    },
+    "withdraw.verifier": {
+      "type": "file",
+      "size": 1353,
+      "hash": "a61392d20dae6d8fa2d7faac960b0213b92264c267fbdef1ad3b4415794d12d8"
+    }
+  }
+}
