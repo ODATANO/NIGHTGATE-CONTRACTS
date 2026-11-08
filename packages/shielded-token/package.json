@@ -1,6 +1,6 @@
 {
     "name": "@odatano/contract-shielded-token",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Shielded test token Compact contract: mints a fixed amount of its own shielded token to the caller, exercising the zswap circuits.",
     "license": "Apache-2.0",
     "author": "ODATANO",
@@ -33,7 +33,7 @@
         "README.md",
         "LICENSE"
     ],
-    "peerDependencies": {
+    "dependencies": {
         "@midnight-ntwrk/compact-runtime": "0.16.0"
     },
     "publishConfig": {

@@ -1,6 +1,6 @@
 {
     "name": "@odatano/contract-holder-registry",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Holder registry Compact contract: a token holder registers a claim key by a coin round trip and later proves the holding to a service with its preimage.",
     "license": "Apache-2.0",
     "author": "ODATANO",
@@ -33,7 +33,7 @@
         "README.md",
         "LICENSE"
     ],
-    "peerDependencies": {
+    "dependencies": {
         "@midnight-ntwrk/compact-runtime": "0.16.0"
     },
     "publishConfig": {

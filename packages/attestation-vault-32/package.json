@@ -1,6 +1,6 @@
 {
     "name": "@odatano/contract-attestation-vault-32",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "AttestationVault Compact contract, 32 content slots: the width-32 twin of @odatano/contract-attestation-vault.",
     "license": "Apache-2.0",
     "author": "ODATANO",
@@ -34,7 +34,7 @@
         "README.md",
         "LICENSE"
     ],
-    "peerDependencies": {
+    "dependencies": {
         "@midnight-ntwrk/compact-runtime": "0.16.0"
     },
     "publishConfig": {

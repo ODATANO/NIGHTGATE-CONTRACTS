@@ -33,6 +33,6 @@
   "compactRuntime": "0.16.0",
   "languageVersion": "0.23.0",
   "digest": "6537607ae62e5deb05de9b055dfe204227fdcb45d17df54d010c3a4a407b3015",
-  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/attestation-vault-v0.1.0",
+  "zkAssetUrl": "https://github.com/ODATANO/NIGHTGATE-CONTRACTS/releases/download/attestation-vault-v0.1.1",
   "zkAssetLayout": "flat"
 }
